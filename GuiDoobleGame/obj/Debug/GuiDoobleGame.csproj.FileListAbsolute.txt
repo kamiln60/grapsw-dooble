@@ -1,0 +1,15 @@
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\bin\Debug\GuiDoobleGame.exe.config
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\bin\Debug\GuiDoobleGame.exe
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\bin\Debug\GuiDoobleGame.pdb
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\GuiDoobleGame.csprojAssemblyReference.cache
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\MainWindow.g.cs
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\App.g.cs
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\GuiDoobleGame_MarkupCompile.cache
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\GuiDoobleGame_MarkupCompile.lref
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\MainWindow.baml
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\GuiDoobleGame.g.resources
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\GuiDoobleGame.Properties.Resources.resources
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\GuiDoobleGame.csproj.GenerateResource.cache
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\GuiDoobleGame.csproj.CoreCompileInputs.cache
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\GuiDoobleGame.exe
+C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\GuiDoobleGame.pdb
