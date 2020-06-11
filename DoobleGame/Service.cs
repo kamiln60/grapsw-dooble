@@ -23,6 +23,7 @@ namespace DoobleGame
         public void connect(string playerName)
         {
             var player = new Player(){Name = playerName, Context = Callback, Points = 0};
+            players.Add(player);
         }
 
         public string GetData(int value)
