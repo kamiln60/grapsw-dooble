@@ -8,11 +8,12 @@ using System.Text;
 namespace DoobleGame
 {
     // UWAGA: możesz użyć polecenia „Zmień nazwę” w menu „Refaktoryzuj”, aby zmienić nazwę interfejsu „IService1” w kodzie i pliku konfiguracji.
-    [ServiceContract(Namespace ="http://tu.kielce.pl")]
+    [ServiceContract(Namespace ="http://tu.kielce.pl", SessionMode = SessionMode.Required, CallbackContract = typeof(IGameClientCallback))]
     public interface IService
     {
+        
         [OperationContract]
-        string GetData(int value);
+        void connect(string playerName);
 
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
@@ -41,5 +42,10 @@ namespace DoobleGame
             get { return stringValue; }
             set { stringValue = value; }
         }
+    }
+
+    public interface IGameClientCallback
+    {
+
     }
 }
