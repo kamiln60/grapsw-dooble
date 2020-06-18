@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using DobbleGameServer.data;
 
 namespace DobbleGameServer
 {
@@ -11,6 +12,9 @@ namespace DobbleGameServer
     [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(IGameClientCallback))]
     public interface IDobbleServer
     {
+        [OperationContract]
+        Player connect(string name);
+
         [OperationContract]
         string GetData(int value);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -35,11 +36,15 @@ namespace GuiDoobleGame
 
     public partial class MainWindow : Window
     {
-        
+        private InstanceContext Context { get; set; }
 
+        private DobbleServerClient Server { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Context = new InstanceContext(new CallbackHandler());
+            this.Server = new DobbleServerClient(this.Context);
         }
     }
 }
