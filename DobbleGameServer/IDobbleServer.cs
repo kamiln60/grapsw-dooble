@@ -5,15 +5,14 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
-namespace DoobleGame
+namespace DobbleGameServer
 {
     // UWAGA: możesz użyć polecenia „Zmień nazwę” w menu „Refaktoryzuj”, aby zmienić nazwę interfejsu „IService1” w kodzie i pliku konfiguracji.
-    [ServiceContract(Namespace ="http://tu.kielce.pl", SessionMode = SessionMode.Required, CallbackContract = typeof(IGameClientCallback))]
-    public interface IService
+    [ServiceContract(SessionMode = SessionMode.Required, CallbackContract = typeof(IGameClientCallback))]
+    public interface IDobbleServer
     {
-        
         [OperationContract]
-        void connect(string playerName);
+        string GetData(int value);
 
         [OperationContract]
         CompositeType GetDataUsingDataContract(CompositeType composite);
@@ -22,7 +21,7 @@ namespace DoobleGame
     }
 
     // Użyj kontraktu danych, jak pokazano w poniższym przykładzie, aby dodać typy złożone do operacji usługi.
-    // Możesz dodać pliki XSD do projektu. Po skompilowaniu projektu możesz bezpośrednio użyć zdefiniowanych w nim typów danych w przestrzeni nazw „DoobleGame.ContractType”.
+    // Możesz dodać pliki XSD do projektu. Po skompilowaniu projektu możesz bezpośrednio użyć zdefiniowanych w nim typów danych w przestrzeni nazw „DobbleGameServer.ContractType”.
     [DataContract]
     public class CompositeType
     {
@@ -46,6 +45,9 @@ namespace DoobleGame
 
     public interface IGameClientCallback
     {
-
+        [OperationContract(IsOneWay = true)]
+        void LockClient();
+        [OperationContract(IsOneWay = true)]
+        void UnlockClient();
     }
 }

@@ -1,7 +1,0 @@
-C:\Users\warke\source\repos\DoobleGame\DoobleGame\bin\Debug\DoobleGame.dll.config
-C:\Users\warke\source\repos\DoobleGame\DoobleGame\bin\Debug\DoobleGame.dll
-C:\Users\warke\source\repos\DoobleGame\DoobleGame\bin\Debug\DoobleGame.pdb
-C:\Users\warke\source\repos\DoobleGame\DoobleGame\obj\Debug\DoobleGame.csprojAssemblyReference.cache
-C:\Users\warke\source\repos\DoobleGame\DoobleGame\obj\Debug\DoobleGame.csproj.CoreCompileInputs.cache
-C:\Users\warke\source\repos\DoobleGame\DoobleGame\obj\Debug\DoobleGame.dll
-C:\Users\warke\source\repos\DoobleGame\DoobleGame\obj\Debug\DoobleGame.pdb

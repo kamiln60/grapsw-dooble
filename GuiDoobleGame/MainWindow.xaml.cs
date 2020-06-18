@@ -12,14 +12,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DobbleGameServer;
+using GuiDoobleGame.DobbleServerServiceReference;
 
 namespace GuiDoobleGame
 {
     /// <summary>
     /// Logika interakcji dla klasy MainWindow.xaml
     /// </summary>
+    public class CallbackHandler : IGameClientCallback
+    {
+
+    }
+
     public partial class MainWindow : Window
     {
+        
+
         public MainWindow()
         {
             InitializeComponent();
