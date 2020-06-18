@@ -22,7 +22,15 @@ namespace GuiDoobleGame
     /// </summary>
     public class CallbackHandler : IGameClientCallback
     {
+        public void LockClient()
+        {
+            throw new NotImplementedException();
+        }
 
+        public void UnlockClient()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public partial class MainWindow : Window
