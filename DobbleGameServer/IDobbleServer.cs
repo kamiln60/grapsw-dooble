@@ -13,7 +13,10 @@ namespace DobbleGameServer
     public interface IDobbleServer
     {
         [OperationContract]
-        Player connect(string name);
+        Player Connect(string name);
+
+        [OperationContract]
+        bool Disconnect(string name);
 
         [OperationContract]
         string GetData(int value);

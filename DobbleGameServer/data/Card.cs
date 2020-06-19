@@ -10,7 +10,12 @@ namespace DobbleGameServer.data
     {
         public int Id { get; set; }
 
+        public Dictionary<int, Symbol> Symbols;
 
+        public Card()
+        {
+            this.Symbols = new Dictionary<int, Symbol>();
+        }
     }
 
     public class Symbol
@@ -18,5 +23,11 @@ namespace DobbleGameServer.data
         public int Id { get; set; }
 
         public byte[] Icon { get; set; }
+
+        public Symbol(int id, byte[] icon)
+        {
+            Id = id;
+            Icon = icon;
+        }
     }
 }
