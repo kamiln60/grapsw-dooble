@@ -23,33 +23,42 @@ namespace DobbleGameServer
 
         private ConcurrentDictionary<int, Symbol> Symbols;
 
+        private List<List<int>> CardSchema;
+
+        private readonly string CARDS_PATH = "C:\\cards";
+
         public DobbleServer()
         {
             //this.Players = new List<Player>(); 
             this.Players = new ConcurrentDictionary<string, Player>();
             this.Cards = new ConcurrentDictionary<int, Card>();
             this.Symbols = new ConcurrentDictionary<int, Symbol>();
-            if (!Directory.Exists("cards")) Directory.CreateDirectory("cards");
+            if (!Directory.Exists(CARDS_PATH))
+            {
+                Directory.CreateDirectory(CARDS_PATH);
+                Console.WriteLine("Utworzono katalog dla kart.");
+            }
+            int symbolsPerCard = 8;
+            Console.WriteLine("Generowanie kart dla liczby symboli na każdej: {0} - spodziewana liczba potrzebnych symboli: {1}", symbolsPerCard, GetNumberOfCards(symbolsPerCard));
 
-            GenerateCards(8);
+            this.CardSchema = GenerateCards(symbolsPerCard);
 
-            // var filesToLoad = Directory
-            //     .GetFiles("cards/")
-            //     .Where(IsImage)
-            //     .ToArray();
-            //
-            // int i = 0;
-            // foreach (var file in filesToLoad)
-            // {
-            //     i++;
-            //     byte[] imageBytes = File.ReadAllBytes(file);
-            //     this.Symbols.TryAdd(i, new Symbol(i, imageBytes));
-            // }
+             var filesToLoad = Directory
+                 .GetFiles(CARDS_PATH)
+                 .Where(IsImage)
+                 .ToArray();
+             
+             int i = 0;
+             foreach (var file in filesToLoad)
+             {
+                 i++;
+                 byte[] imageBytes = File.ReadAllBytes(file);
+                 this.Symbols.TryAdd(i, new Symbol(i, imageBytes));
+             }
 
-            //Environment.Exit(-1);
         }
 
-        public void GenerateCards(int symbolsPerCard)
+        public List<List<int>> GenerateCards(int symbolsPerCard)
         {
             int numberOfCards = 0;
             List<List<int>> cardNumbers = new List<List<int>>();
@@ -81,6 +90,13 @@ namespace DobbleGameServer
                     cardNumbers.Add(symbolNumbers);
                 }
             }
+
+            return cardNumbers;
+        }
+
+        private int GetNumberOfCards(int n)
+        {
+            return n + (n - 1)*(n - 1);
         }
 
         private bool IsImage(string name)
