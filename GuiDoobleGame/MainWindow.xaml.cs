@@ -45,6 +45,7 @@ namespace GuiDoobleGame
 
             this.Context = new InstanceContext(new CallbackHandler());
             this.Server = new DobbleServerClient(this.Context);
+            
         }
     }
 }

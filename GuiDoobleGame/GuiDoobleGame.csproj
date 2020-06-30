@@ -92,11 +92,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\DobbleServerServiceReference\DobbleGameServer.xsd">
+    <None Include="Connected Services\DobbleServerServiceReference\DobbleGameServer.data.xsd">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Connected Services\DobbleServerServiceReference\GuiDoobleGame.DobbleServerServiceReference.CompositeType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
+    <None Include="Connected Services\DobbleServerServiceReference\DobbleGameServer.xsd">
+      <SubType>Designer</SubType>
     </None>
     <None Include="Connected Services\DobbleServerServiceReference\service.wsdl" />
     <None Include="Connected Services\DobbleServerServiceReference\service.xsd">
@@ -105,6 +105,8 @@
     <None Include="Connected Services\DobbleServerServiceReference\service1.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\DataSources\DobbleGameServer.CompositeType.datasource" />
+    <None Include="Properties\DataSources\DobbleGameServer.data.Player.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

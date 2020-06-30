@@ -15,18 +15,15 @@ namespace DobbleGameServer.data
 
         public int Points { get; set; }
 
-        private OperationContext _context;
+        public IGameClientCallback Callback => Context.GetCallbackChannel<IGameClientCallback>();
 
-        public IGameClientCallback Callback => _context.GetCallbackChannel<IGameClientCallback>();
+        public OperationContext Context { set; get; }
 
-        public OperationContext Context
-        {
-            set => _context = value;
-        }
+        public int CardId { get; set; }
 
         public Player(OperationContext context, string name)
         {
-            _context = context;
+            Context = context;
             Name = name;
         }
     }

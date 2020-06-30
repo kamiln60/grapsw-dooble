@@ -27,6 +27,8 @@ namespace DobbleGameServer
 
         private readonly string CARDS_PATH = "C:\\cards";
 
+        private int currentCardId;
+
         public DobbleServer()
         {
             //this.Players = new List<Player>(); 
@@ -38,10 +40,10 @@ namespace DobbleGameServer
                 Directory.CreateDirectory(CARDS_PATH);
                 Console.WriteLine("Utworzono katalog dla kart.");
             }
-            int symbolsPerCard = 8;
+            int symbolsPerCard = 8, symbolsCount, cardsCount;
             Console.WriteLine("Generowanie kart dla liczby symboli na każdej: {0} - spodziewana liczba potrzebnych symboli: {1}", symbolsPerCard, GetNumberOfCards(symbolsPerCard));
 
-            this.CardSchema = GenerateCards(symbolsPerCard);
+            this.CardSchema = GenerateCardSchema(symbolsPerCard, out symbolsCount, out cardsCount);
 
              var filesToLoad = Directory
                  .GetFiles(CARDS_PATH)
@@ -58,7 +60,7 @@ namespace DobbleGameServer
 
         }
 
-        public List<List<int>> GenerateCards(int symbolsPerCard)
+        public List<List<int>> GenerateCardSchema(int symbolsPerCard, out int symbolsCount, out int cardsCount)
         {
             int numberOfCards = 0;
             List<List<int>> cardNumbers = new List<List<int>>();
@@ -91,6 +93,8 @@ namespace DobbleGameServer
                 }
             }
 
+            symbolsCount = cardsCount = cardNumbers.Count;
+
             return cardNumbers;
         }
 
@@ -101,7 +105,7 @@ namespace DobbleGameServer
 
         private bool IsImage(string name)
         {
-            return name.EndsWith(".png") || name.EndsWith(".jpg");
+            return name.EndsWith(".png") || name.EndsWith(".jpg") || name.EndsWith(".bmp");
         }
 
         public Player Connect(string name)
@@ -126,22 +130,5 @@ namespace DobbleGameServer
         }
 
 
-        public string GetData(int value)
-        {
-            return string.Format("You entered: {0}", value);
-        }
-
-        public CompositeType GetDataUsingDataContract(CompositeType composite)
-        {
-            if (composite == null)
-            {
-                throw new ArgumentNullException("composite");
-            }
-            if (composite.BoolValue)
-            {
-                composite.StringValue += "Suffix";
-            }
-            return composite;
-        }
     }
 }
