@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoobleGame", "DoobleGame\DoobleGame.csproj", "{B268E5E7-7995-4419-9342-0A4EF9F8AAFF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiDoobleGame", "GuiDoobleGame\GuiDoobleGame.csproj", "{AF929A8B-8161-4493-AEEA-D906B092C261}"
+	ProjectSection(ProjectDependencies) = postProject
+		{590D9295-5E82-46C1-B859-B763555AEA18} = {590D9295-5E82-46C1-B859-B763555AEA18}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DobbleServerHost", "DobbleServerHost\DobbleServerHost.csproj", "{F48CDC51-D982-4173-BF39-A2069E4B3745}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DobbleGameServer", "DobbleGameServer\DobbleGameServer.csproj", "{590D9295-5E82-46C1-B859-B763555AEA18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +18,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B268E5E7-7995-4419-9342-0A4EF9F8AAFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B268E5E7-7995-4419-9342-0A4EF9F8AAFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B268E5E7-7995-4419-9342-0A4EF9F8AAFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B268E5E7-7995-4419-9342-0A4EF9F8AAFF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AF929A8B-8161-4493-AEEA-D906B092C261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AF929A8B-8161-4493-AEEA-D906B092C261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF929A8B-8161-4493-AEEA-D906B092C261}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF929A8B-8161-4493-AEEA-D906B092C261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F48CDC51-D982-4173-BF39-A2069E4B3745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F48CDC51-D982-4173-BF39-A2069E4B3745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F48CDC51-D982-4173-BF39-A2069E4B3745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F48CDC51-D982-4173-BF39-A2069E4B3745}.Release|Any CPU.Build.0 = Release|Any CPU
+		{590D9295-5E82-46C1-B859-B763555AEA18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{590D9295-5E82-46C1-B859-B763555AEA18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{590D9295-5E82-46C1-B859-B763555AEA18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{590D9295-5E82-46C1-B859-B763555AEA18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
