@@ -25,6 +25,7 @@
     <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="81a5ba4e-7447-4ea2-bf84-781333a97d4a" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/DobbleGameServer/DobbleServer/mex" />
     <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="0bbfc872-2637-4d77-a341-8f05f0d5caca" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/DobbleGameServer/DobbleServer/mex" />
     <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="6ae1db35-2bef-4d35-b660-efe927e43dcc" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/DobbleGameServer/DobbleServer/mex" />
+    <MetadataFile FileName="DobbleGameServer.data.xsd" MetadataType="Schema" ID="5e51bf44-69aa-43ed-9207-bcd6bfe242e7" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/DobbleGameServer/DobbleServer/mex" />
     <MetadataFile FileName="DobbleGameServer.xsd" MetadataType="Schema" ID="b0ed7624-e96d-4ffd-aa28-ad2e6875a924" SourceId="1" SourceUrl="http://localhost:8733/Design_Time_Addresses/DobbleGameServer/DobbleServer/mex" />
   </Metadata>
   <Extensions>

@@ -9,74 +9,23 @@
 //------------------------------------------------------------------------------
 
 namespace GuiDoobleGame.DobbleServerServiceReference {
-    using System.Runtime.Serialization;
-    using System;
     
-    
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CompositeType", Namespace="http://schemas.datacontract.org/2004/07/DobbleGameServer")]
-    [System.SerializableAttribute()]
-    public partial class CompositeType : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
-        
-        [System.NonSerializedAttribute()]
-        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool BoolValueField;
-        
-        [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string StringValueField;
-        
-        [global::System.ComponentModel.BrowsableAttribute(false)]
-        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
-            get {
-                return this.extensionDataField;
-            }
-            set {
-                this.extensionDataField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool BoolValue {
-            get {
-                return this.BoolValueField;
-            }
-            set {
-                if ((this.BoolValueField.Equals(value) != true)) {
-                    this.BoolValueField = value;
-                    this.RaisePropertyChanged("BoolValue");
-                }
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string StringValue {
-            get {
-                return this.StringValueField;
-            }
-            set {
-                if ((object.ReferenceEquals(this.StringValueField, value) != true)) {
-                    this.StringValueField = value;
-                    this.RaisePropertyChanged("StringValue");
-                }
-            }
-        }
-        
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        
-        protected void RaisePropertyChanged(string propertyName) {
-            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
-            if ((propertyChanged != null)) {
-                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
-            }
-        }
-    }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="DobbleServerServiceReference.IDobbleServer", CallbackContract=typeof(GuiDoobleGame.DobbleServerServiceReference.IDobbleServerCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface IDobbleServer {
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/Connect", ReplyAction="http://tempuri.org/IDobbleServer/ConnectResponse")]
+        DobbleGameServer.data.Player Connect(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/Connect", ReplyAction="http://tempuri.org/IDobbleServer/ConnectResponse")]
+        System.Threading.Tasks.Task<DobbleGameServer.data.Player> ConnectAsync(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/Disconnect", ReplyAction="http://tempuri.org/IDobbleServer/DisconnectResponse")]
+        bool Disconnect(string name);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/Disconnect", ReplyAction="http://tempuri.org/IDobbleServer/DisconnectResponse")]
+        System.Threading.Tasks.Task<bool> DisconnectAsync(string name);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/GetData", ReplyAction="http://tempuri.org/IDobbleServer/GetDataResponse")]
         string GetData(int value);
@@ -85,10 +34,10 @@ namespace GuiDoobleGame.DobbleServerServiceReference {
         System.Threading.Tasks.Task<string> GetDataAsync(int value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IDobbleServer/GetDataUsingDataContractResponse")]
-        GuiDoobleGame.DobbleServerServiceReference.CompositeType GetDataUsingDataContract(GuiDoobleGame.DobbleServerServiceReference.CompositeType composite);
+        DobbleGameServer.CompositeType GetDataUsingDataContract(DobbleGameServer.CompositeType composite);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IDobbleServer/GetDataUsingDataContractResponse")]
-        System.Threading.Tasks.Task<GuiDoobleGame.DobbleServerServiceReference.CompositeType> GetDataUsingDataContractAsync(GuiDoobleGame.DobbleServerServiceReference.CompositeType composite);
+        System.Threading.Tasks.Task<DobbleGameServer.CompositeType> GetDataUsingDataContractAsync(DobbleGameServer.CompositeType composite);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -129,6 +78,22 @@ namespace GuiDoobleGame.DobbleServerServiceReference {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
+        public DobbleGameServer.data.Player Connect(string name) {
+            return base.Channel.Connect(name);
+        }
+        
+        public System.Threading.Tasks.Task<DobbleGameServer.data.Player> ConnectAsync(string name) {
+            return base.Channel.ConnectAsync(name);
+        }
+        
+        public bool Disconnect(string name) {
+            return base.Channel.Disconnect(name);
+        }
+        
+        public System.Threading.Tasks.Task<bool> DisconnectAsync(string name) {
+            return base.Channel.DisconnectAsync(name);
+        }
+        
         public string GetData(int value) {
             return base.Channel.GetData(value);
         }
@@ -137,11 +102,11 @@ namespace GuiDoobleGame.DobbleServerServiceReference {
             return base.Channel.GetDataAsync(value);
         }
         
-        public GuiDoobleGame.DobbleServerServiceReference.CompositeType GetDataUsingDataContract(GuiDoobleGame.DobbleServerServiceReference.CompositeType composite) {
+        public DobbleGameServer.CompositeType GetDataUsingDataContract(DobbleGameServer.CompositeType composite) {
             return base.Channel.GetDataUsingDataContract(composite);
         }
         
-        public System.Threading.Tasks.Task<GuiDoobleGame.DobbleServerServiceReference.CompositeType> GetDataUsingDataContractAsync(GuiDoobleGame.DobbleServerServiceReference.CompositeType composite) {
+        public System.Threading.Tasks.Task<DobbleGameServer.CompositeType> GetDataUsingDataContractAsync(DobbleGameServer.CompositeType composite) {
             return base.Channel.GetDataUsingDataContractAsync(composite);
         }
     }
