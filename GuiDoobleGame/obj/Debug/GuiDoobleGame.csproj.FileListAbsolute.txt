@@ -16,6 +16,9 @@ C:\Users\warke\source\repos\DoobleGame\GuiDoobleGame\obj\Debug\GuiDoobleGame.pdb
 C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\bin\Debug\GuiDoobleGame.exe.config
 C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\bin\Debug\GuiDoobleGame.exe
 C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\bin\Debug\GuiDoobleGame.pdb
+C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\bin\Debug\DobbleGameServer.dll
+C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\bin\Debug\DobbleGameServer.pdb
+C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\bin\Debug\DobbleGameServer.dll.config
 C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\obj\Debug\GuiDoobleGame.csprojAssemblyReference.cache
 C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\obj\Debug\MainWindow.g.cs
 C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\obj\Debug\App.g.cs
@@ -26,5 +29,6 @@ C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\obj\Debug\GuiDoobleGame.g.res
 C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\obj\Debug\GuiDoobleGame.Properties.Resources.resources
 C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\obj\Debug\GuiDoobleGame.csproj.GenerateResource.cache
 C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\obj\Debug\GuiDoobleGame.csproj.CoreCompileInputs.cache
+C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\obj\Debug\GuiDoobleGame.csproj.CopyComplete
 C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\obj\Debug\GuiDoobleGame.exe
 C:\Users\aleks\Desktop\grapsw-dooble\GuiDoobleGame\obj\Debug\GuiDoobleGame.pdb

@@ -64,11 +64,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Connected Services\DobbleServerServiceReference\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -92,19 +87,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Connected Services\DobbleServerServiceReference\DobbleGameServer.data.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\DobbleServerServiceReference\DobbleGameServer.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\DobbleServerServiceReference\service.wsdl" />
-    <None Include="Connected Services\DobbleServerServiceReference\service.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Connected Services\DobbleServerServiceReference\service1.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\DataSources\DobbleGameServer.CompositeType.datasource" />
     <None Include="Properties\DataSources\DobbleGameServer.data.Player.datasource" />
     <None Include="Properties\Settings.settings">
@@ -117,21 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadataStorage Include="Connected Services\DobbleServerServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\DobbleServerServiceReference\configuration91.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\DobbleServerServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Connected Services\DobbleServerServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DobbleGameServer\DobbleGameServer.csproj">

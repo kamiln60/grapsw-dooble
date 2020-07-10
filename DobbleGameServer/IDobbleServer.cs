@@ -16,9 +16,13 @@ namespace DobbleGameServer
         Player Connect(string name);
 
         [OperationContract]
-        bool Disconnect(string name);
+        bool Disconnect(int token);
 
-        
+        [OperationContract]
+        Card[] GetCards();
+
+        void PickCard(int token, int symbolNo);
+
         // TODO: dodaj tutaj operacje usługi
     }
 
@@ -31,5 +35,8 @@ namespace DobbleGameServer
         void LockClient();
         [OperationContract(IsOneWay = true)]
         void UnlockClient();
+
+        [OperationContract(IsOneWay = true)]
+        void SendLog(string message);
     }
 }
