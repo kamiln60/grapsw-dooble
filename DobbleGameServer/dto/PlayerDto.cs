@@ -25,5 +25,10 @@ namespace DobbleGameServer.dto {
             this.Points = player.Points;
             this.CardId = player.CardId;
         }
+
+        public override string ToString()
+        {
+            return $"{nameof(Id)}: {Id}, {nameof(Name)}: {Name}, {nameof(Points)}: {Points}, {nameof(CardId)}: {CardId}";
+        }
     }
 }

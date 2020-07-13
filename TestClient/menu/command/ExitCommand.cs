@@ -14,8 +14,16 @@ namespace TestClient.menu.command {
         
         public override void execute()
         {
-            remote.Close();
-            Console.WriteLine("Zamykanie...");
+            try
+            {
+                remote.Close();
+            }
+            finally
+            {
+                Console.WriteLine("Zamykanie...");
+                Environment.Exit(0);
+            }
+            
         }
     }
 }

@@ -49,7 +49,7 @@ namespace DobbleGameServer {
                 else {
                     state.Players[pick.PlayerToken].Callback.LockClient();
 
-                    Timer timer = new Timer(UnbanToken, pick.PlayerToken, 10000, System.Threading.Timeout.Infinite);
+                    Timer timer = new Timer(UnbanToken, pick.PlayerToken, 5000, System.Threading.Timeout.Infinite);
                     BannedTokens.TryAdd(pick.PlayerToken, timer);
                 }
 
@@ -72,7 +72,7 @@ namespace DobbleGameServer {
             ConnectionRequest request;
             while (true) {
                 request = connectionQueue.Dequeue();
-
+                Console.WriteLine("Odebrano połączenie od: {0}", request.Name);
                 Thread.BeginCriticalRegion();
                 ConnectionLock.EnterWriteLock();
 

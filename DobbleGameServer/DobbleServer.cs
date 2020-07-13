@@ -88,6 +88,9 @@ namespace DobbleGameServer {
         }
 
         public void DeclareReadiness(int token, bool readiness) {
+            Console.WriteLine("Przed dodaniem: {0}", token);
+            state.Players.Values
+                .ToList().ForEach(player => Console.WriteLine(player.Name));
             lock (this.state.Players)
             {
                 this.state.Players[token].IsReady = readiness;
@@ -126,6 +129,17 @@ namespace DobbleGameServer {
         public void StartGame()
         {
             this.state.State = State.WAIT_FOR_CARD;
+            InitializeRound();
+            BroadcastMessage("Rozpoczynanie rundy!\n");
+        }
+
+        public void BroadcastMessage(string message)
+        {
+            this.state.Players
+                .Values
+                .Select(player => player.Callback)
+                .ToList()
+                .ForEach(callback => callback.SendLog(message));
         }
 
         public void InitializeRound()
