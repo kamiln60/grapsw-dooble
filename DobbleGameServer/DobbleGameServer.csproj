@@ -49,7 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CardSchemaGenerator.cs" />
+    <Compile Include="dto\CardRoundDto.cs" />
     <Compile Include="dto\ConnectionRequest.cs" />
+    <Compile Include="dto\PlayerDto.cs" />
     <Compile Include="utils\BlockingQueue.cs" />
     <Compile Include="data\Card.cs" />
     <Compile Include="data\GameState.cs" />

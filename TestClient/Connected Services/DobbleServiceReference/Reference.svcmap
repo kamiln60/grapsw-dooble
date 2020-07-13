@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="489ea85d-bbce-47ca-abce-cab345a0e2c7" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8000/DobbleServer/" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="072e9950-1d80-40fc-83f4-3e82ad26dde5" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd0" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="7fa79032-b87d-4a60-aeb4-79132a5fdf7c" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?disco" />
+    <MetadataFile FileName="item4.xsd" MetadataType="Schema" ID="6552a2f5-e930-4a27-adab-5a62a3301161" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd4" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="e81ca445-c175-45d0-bfdf-c6a912b2e7a2" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd2" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="13de7c97-f3d5-447f-ba32-3f48ee9c370d" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd1" />
+    <MetadataFile FileName="DobbleServer.wsdl" MetadataType="Wsdl" ID="0965c285-7e32-4117-bd3e-2c69dd847e47" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?wsdl" />
+    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="4a2daed2-72b2-4bbd-9675-5a6282878188" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd3" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

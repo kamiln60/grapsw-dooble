@@ -14,13 +14,11 @@ using System.Threading;
 using DobbleGameServer.data;
 using DobbleGameServer.dto;
 
-namespace DobbleGameServer
-{
+namespace DobbleGameServer {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
-    public partial class DobbleServer : IDobbleServer
-    {
+    public partial class DobbleServer : IDobbleServer {
         IGameClientCallback Callback => OperationContext.Current.GetCallbackChannel<IGameClientCallback>();
- //private ConcurrentDictionary<int, Symbol> Symbols;
+        //private ConcurrentDictionary<int, Symbol> Symbols;
         private GameState state;
 
         private BlockingQueue<PlayerPick> picksQueue;
@@ -31,15 +29,19 @@ namespace DobbleGameServer
 
         private Random rng;
 
+        private Timer NextRoundTimer { get; set; }
+
+        private ConcurrentDictionary<int, Timer> BannedTokens;
+
         //private readonly string CARDS_PATH = "C:\\cards";
 
         private int currentCardId;
 
-        public DobbleServer()
-        {
-            
+        public DobbleServer() {
+
             this.picksQueue = new BlockingQueue<PlayerPick>();
             this.connectionQueue = new BlockingQueue<ConnectionRequest>();
+            this.BannedTokens = new ConcurrentDictionary<int, Timer>();
             this.state = new GameState();
 
             //this.Symbols = new ConcurrentDictionary<int, Symbol>();
@@ -54,56 +56,114 @@ namespace DobbleGameServer
 
             this.CardSchema = GenerateCardSchema(symbolsPerCard, out symbolsCount, out cardsCount);
 
-             //LoadSymbolsFromFiles();
+            //LoadSymbolsFromFiles();
 
-             GenerateCardsFromSchema();
+            GenerateCardsFromSchema();
 
-             rng = new Random();
+            rng = new Random();
 
-             Console.WriteLine("Zakończono inicjowanie serwera.");
+            InitializeThreads();
+
+            Console.WriteLine("Zakończono inicjowanie serwera.");
         }
 
-        public Player Connect(string name)
-        {
-            if (ContainsName(name))
-            {
-                Callback.SendLog("Nazwa gracza zajęta, proszę wybrać inną.");
-                return null;
+        public bool Connect(string name) {
+            lock (this.state.Players) {
+                if (ContainsName(name)) {
+                    Callback.SendLog("Nazwa gracza zajęta, proszę wybrać inną.");
+                    return false;
+                }
+
+                connectionQueue.Enqueue(new ConnectionRequest(OperationContext.Current, name));
+
             }
-
-            Player player = new Player(OperationContext.Current, name);
-            this.state.Players.TryAdd(GenerateToken(), player);
-
-            return player;
+            return true;
         }
 
-        public void PickCard(int token, int symbolNo)
-        {
-            if (!this.state.Players.ContainsKey(token))
-            {
+        public void PickACard(int token, int symbolNo) {
+            if (!state.Players.ContainsKey(token)) {
                 return;
             }
             picksQueue.Enqueue(new PlayerPick(token, symbolNo));
         }
 
-        private int GenerateToken()
-        {
-            int tokenToReturn;
-            do
+        public void DeclareReadiness(int token, bool readiness) {
+            lock (this.state.Players)
             {
+                this.state.Players[token].IsReady = readiness;
+            }
+            InitGame();
+        }
+
+        public void InitGame()
+        {
+            lock (this)
+            {
+                if (IsRequiredNumberOfPlayers() && IsEveryoneReady()) {
+                    StartGame();
+                }
+            }
+        }
+
+        public bool IsRequiredNumberOfPlayers()
+        {
+            return this.state.Players.Keys.Count >= 2;
+        }
+
+        public bool IsEveryoneReady()
+        {
+            foreach (var playersValue in this.state.Players.Values)
+            {
+                if (!playersValue.IsReady)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public void StartGame()
+        {
+            this.state.State = State.WAIT_FOR_CARD;
+        }
+
+        public void InitializeRound()
+        {
+            if (this.state.State != State.WAIT_FOR_CARD)
+            {
+                return;
+            }
+
+            this.state.CurrentCard = this.state.Cards[rng.Next(1, this.state.Cards.Count)];
+
+            foreach (var playersValue in this.state.Players.Values)
+            {
+                playersValue.CardId = this.state.Cards[rng.Next(1, this.state.Cards.Count)].Id;
+                playersValue.Callback.SendRoundData(new CardRoundDto(this.state.CurrentCard, this.state.Cards[playersValue.CardId]));
+            }
+
+            this.state.State = State.PICK_CARD;
+
+        }
+
+        public void StopGame() {
+
+        }
+
+        private int GenerateToken() {
+            int tokenToReturn;
+            do {
                 tokenToReturn = rng.Next();
             } while (this.state.Players.Keys.Contains(tokenToReturn));
 
             return tokenToReturn;
         }
 
-        private bool ContainsName(string name)
-        {
+        private bool ContainsName(string name) {
             List<Player> playersToSearch = this.state.Players.Values.ToList();
-            foreach (var player in playersToSearch)
-            {
-                if (string.Equals(name, player.Name))
-                {
+            foreach (var player in playersToSearch) {
+                if (string.Equals(name, player.Name)) {
                     return true;
                 }
             }
@@ -111,18 +171,24 @@ namespace DobbleGameServer
             return false;
         }
 
-        public bool Disconnect(int token)
-        {
-            return this.state.Players.ContainsKey(token) && Equals(this.state.Players.TryRemove(token, out var player));
+        public bool Disconnect(int token) {
+            lock (this.state.Players) {
+                if (this.state.Players.ContainsKey(token)) {
+                    return false;
+                }
+                bool returnValue = Equals(this.state.Players.TryRemove(token, out var player));
+
+                player.Callback.SendLog("dupa");
+                return returnValue;
+            }
+
         }
 
-        public string getIdentity()
-        {
+        public string getIdentity() {
             return "NO U";
         }
 
-        public Card[] GetCards()
-        {
+        public Card[] GetCards() {
             return this.state.Cards.Values.ToArray();
         }
 

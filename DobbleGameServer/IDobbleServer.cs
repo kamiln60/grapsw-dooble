@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using DobbleGameServer.data;
+using DobbleGameServer.dto;
 
 namespace DobbleGameServer
 {
@@ -13,7 +14,7 @@ namespace DobbleGameServer
     public interface IDobbleServer
     {
         [OperationContract]
-        Player Connect(string name);
+        bool Connect(string name);
 
         [OperationContract]
         bool Disconnect(int token);
@@ -21,7 +22,11 @@ namespace DobbleGameServer
         [OperationContract]
         Card[] GetCards();
 
-        void PickCard(int token, int symbolNo);
+        [OperationContract]
+        void PickACard(int token, int symbolNo);
+
+        [OperationContract]
+        void DeclareReadiness(int token, bool readiness);
 
         // TODO: dodaj tutaj operacje usługi
     }
@@ -33,10 +38,17 @@ namespace DobbleGameServer
     {
         [OperationContract(IsOneWay = true)]
         void LockClient();
+
         [OperationContract(IsOneWay = true)]
         void UnlockClient();
 
         [OperationContract(IsOneWay = true)]
         void SendLog(string message);
+
+        [OperationContract(IsOneWay = true)]
+        void SendPlayerData(PlayerDto player);
+
+        [OperationContract(IsOneWay = true)]
+        void SendRoundData(CardRoundDto roundDto);
     }
 }

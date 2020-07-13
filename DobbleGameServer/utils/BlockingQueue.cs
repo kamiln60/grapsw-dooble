@@ -25,7 +25,6 @@ namespace DobbleGameServer
                 queue.Enqueue(item);
                 if (queue.Count == 1)
                 {
-                    // wake up any blocked dequeue
                     Monitor.PulseAll(queue);
                 }
             }
@@ -33,12 +32,14 @@ namespace DobbleGameServer
 
         public new T Dequeue()
         {
-            while (queue.Count == 0)
+            lock (queue)
             {
-                Monitor.Wait(queue);
-            }
+                while (queue.Count == 0) {
+                    Monitor.Wait(queue);
+                }
 
-            return queue.Dequeue();
+                return queue.Dequeue();
+            }
         }
 
         public new void Clear()

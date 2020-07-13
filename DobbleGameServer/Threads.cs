@@ -14,29 +14,57 @@ namespace DobbleGameServer {
         public Thread PlayerPickThread { get; set; }
         public Thread ConnectionManagementThread { get; set; }
 
-        public SpinLock PlayerPickThreadSpinLock { get; set; }
+        public ReaderWriterLockSlim PlayerPickLock { get; set; }
 
-        public void InitializeThreads()
-        {
+        public ReaderWriterLockSlim ConnectionLock { get; set; }
+
+        public void InitializeThreads() {
             this.PlayerPickThread = new Thread(PlayerPickThreadMethod);
             this.ConnectionManagementThread = new Thread(ConnectionManagementThreadMethod);
+            this.PlayerPickLock = new ReaderWriterLockSlim();
+            this.ConnectionLock = new ReaderWriterLockSlim();
+
 
             this.ConnectionManagementThread.Start();
-            
+            this.PlayerPickThread.Start();
+
         }
+
+        #region Threads
 
         public void PlayerPickThreadMethod() {
             PlayerPick pick;
             while (true) {
 
-                Monitor.Wait(picksQueue);
+
                 pick = picksQueue.Dequeue();
+
                 Thread.BeginCriticalRegion();
+                PlayerPickLock.EnterWriteLock();
+
                 if (this.state.CurrentCard.Symbols.Contains(pick.Pick)) {
                     this.state.State = State.WAIT_FOR_CARD;
+                    this.picksQueue.Clear();
+                }
+                else {
+                    state.Players[pick.PlayerToken].Callback.LockClient();
+
+                    Timer timer = new Timer(UnbanToken, pick.PlayerToken, 10000, System.Threading.Timeout.Infinite);
+                    BannedTokens.TryAdd(pick.PlayerToken, timer);
                 }
 
+                PlayerPickLock.ExitWriteLock();
                 Thread.EndCriticalRegion();
+            }
+        }
+
+        public void UnbanToken(object token) {
+            lock (BannedTokens)
+            {
+                BannedTokens[(int) token].Dispose();
+                BannedTokens.TryRemove((int)token, out _);
+                state.Players[(int)token].Callback.SendLog("Zostałeś odblokowany.");
+                state.Players[(int)token].Callback.UnlockClient();
             }
         }
 
@@ -46,14 +74,24 @@ namespace DobbleGameServer {
                 request = connectionQueue.Dequeue();
 
                 Thread.BeginCriticalRegion();
+                ConnectionLock.EnterWriteLock();
+
                 if (this.state.State != State.LOBBY) {
                     request.Callback.SendLog("Gra jest w toku. Spróbuj ponownie później.");
                 }
                 else {
-
+                    Player player = new Player(request.Context, request.Name);
+                    int token = GenerateToken();
+                    this.state.Players.TryAdd(token, player);
+                    player.Callback.SendPlayerData(new PlayerDto(token, player));
                 }
+
+                ConnectionLock.ExitWriteLock();
                 Thread.EndCriticalRegion();
             }
         }
+
+        #endregion
+
     }
 }

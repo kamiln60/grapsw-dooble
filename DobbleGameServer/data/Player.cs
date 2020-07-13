@@ -21,8 +21,11 @@ namespace DobbleGameServer.data
 
         public int CardId { get; set; }
 
+        public bool IsReady { get; set; }
+
         public Player(OperationContext context, string name)
         {
+            IsReady = false;
             Context = context;
             Name = name;
         }
