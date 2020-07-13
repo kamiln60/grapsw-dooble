@@ -13,7 +13,7 @@ namespace DobbleServerHost
     {
         static void Main(string[] args)
         {
-            Uri baseAddress = new Uri("http://localhost:8001/DobbleServer/");
+            Uri baseAddress = new Uri("http://localhost:8000/DobbleServer/");
             ServiceHost selfHost = new ServiceHost(typeof(DobbleServer), baseAddress);
 
             try

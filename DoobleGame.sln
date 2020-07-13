@@ -12,6 +12,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DobbleServerHost", "DobbleS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DobbleGameServer", "DobbleGameServer\DobbleGameServer.csproj", "{590D9295-5E82-46C1-B859-B763555AEA18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClient", "TestClient\TestClient.csproj", "{65AAAA00-1956-4553-A540-2CCF48F4D380}"
+	ProjectSection(ProjectDependencies) = postProject
+		{590D9295-5E82-46C1-B859-B763555AEA18} = {590D9295-5E82-46C1-B859-B763555AEA18}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +35,10 @@ Global
 		{590D9295-5E82-46C1-B859-B763555AEA18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{590D9295-5E82-46C1-B859-B763555AEA18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{590D9295-5E82-46C1-B859-B763555AEA18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65AAAA00-1956-4553-A540-2CCF48F4D380}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65AAAA00-1956-4553-A540-2CCF48F4D380}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65AAAA00-1956-4553-A540-2CCF48F4D380}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65AAAA00-1956-4553-A540-2CCF48F4D380}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
