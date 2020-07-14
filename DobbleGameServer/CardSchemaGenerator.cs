@@ -48,21 +48,5 @@ namespace DobbleGameServer
         {
             return n + (n - 1) * (n - 1);
         }
-        private void GenerateCardsFromSchema()
-        {
-            int cardNo = 1;
-            foreach (var card in CardSchema)
-            {
-                Card cardToAdd = new Card();
-                cardToAdd.Id = cardNo++;
-
-                foreach (var symbolId in card)
-                {
-                    cardToAdd.Symbols.Add(symbolId);
-                }
-
-                this.state.Cards.TryAdd(cardToAdd.Id, cardToAdd);
-            }
-        }
     }
 }

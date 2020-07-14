@@ -14,6 +14,7 @@
     <xs:sequence>
       <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/DobbleGameServer.data" minOccurs="0" name="CurrentCard" nillable="true" type="q1:Card" />
       <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/DobbleGameServer.data" minOccurs="0" name="PlayerCard" nillable="true" type="q2:Card" />
+      <xs:element minOccurs="0" name="RoundNumber" type="xs:int" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="CardRoundDto" nillable="true" type="tns:CardRoundDto" />

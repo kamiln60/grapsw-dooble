@@ -18,8 +18,8 @@ namespace DobbleGameServer {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public partial class DobbleServer : IDobbleServer {
         IGameClientCallback Callback => OperationContext.Current.GetCallbackChannel<IGameClientCallback>();
-        //private ConcurrentDictionary<int, Symbol> Symbols;
-        private GameState state;
+
+        private volatile GameState state;
 
         private BlockingQueue<PlayerPick> picksQueue;
 
@@ -27,38 +27,21 @@ namespace DobbleGameServer {
 
         private List<List<int>> CardSchema;
 
+        private ServerConfigDto Config;
+
         private Random rng;
-
-        private Timer NextRoundTimer { get; set; }
-
-        private ConcurrentDictionary<int, Timer> BannedTokens;
-
-        //private readonly string CARDS_PATH = "C:\\cards";
-
-        private int currentCardId;
 
         public DobbleServer() {
 
             this.picksQueue = new BlockingQueue<PlayerPick>();
             this.connectionQueue = new BlockingQueue<ConnectionRequest>();
-            this.BannedTokens = new ConcurrentDictionary<int, Timer>();
-            this.state = new GameState();
+            this.Config = new ServerConfigDto();
 
-            //this.Symbols = new ConcurrentDictionary<int, Symbol>();
-            // if (!Directory.Exists(CARDS_PATH))
-            // {
-            //     
-            //     Directory.CreateDirectory(CARDS_PATH);
-            //     Console.WriteLine("Utworzono katalog dla kart.");
-            // }
-            int symbolsPerCard = 6, symbolsCount, cardsCount;
-            Console.WriteLine("Generowanie kart dla liczby symboli na każdej: {0} - spodziewana liczba potrzebnych symboli: {1}", symbolsPerCard, GetNumberOfCards(symbolsPerCard));
+            Console.WriteLine("Generowanie kart dla liczby symboli na każdej: {0} - spodziewana liczba potrzebnych symboli: {1}", Config.SymbolsPerCard, GetNumberOfCards(Config.SymbolsPerCard));
 
-            this.CardSchema = GenerateCardSchema(symbolsPerCard, out symbolsCount, out cardsCount);
-
+            this.CardSchema = GenerateCardSchema(Config.SymbolsPerCard, out _, out _);
+            this.state = new GameState(this.CardSchema);
             //LoadSymbolsFromFiles();
-
-            GenerateCardsFromSchema();
 
             rng = new Random();
 
@@ -69,6 +52,12 @@ namespace DobbleGameServer {
 
         public bool Connect(string name) {
             lock (this.state.Players) {
+                if (this.state.State != State.LOBBY)
+                {
+                    Callback.SendLog("Gra jest w toku. Zapraszamy później.");
+                    return false;
+                }
+
                 if (ContainsName(name)) {
                     Callback.SendLog("Nazwa gracza zajęta, proszę wybrać inną.");
                     return false;
@@ -81,108 +70,110 @@ namespace DobbleGameServer {
         }
 
         public void PickACard(int token, int symbolNo) {
-            if (!state.Players.ContainsKey(token)) {
-                return;
+            lock (state)
+            {
+                if (state.State != State.PICK_CARD) {
+                    Callback.SendLog("Akcja (jeszcze) niedozwolona.");
+                    return;
+                }
+                if (!state.Players.ContainsKey(token)) {
+                    Callback.SendLog("Gracz nie jest członkiem tej gry!");
+                    return;
+                }
+                
             }
             picksQueue.Enqueue(new PlayerPick(token, symbolNo));
         }
 
         public void DeclareReadiness(int token, bool readiness) {
-            Console.WriteLine("Przed dodaniem: {0}", token);
-            state.Players.Values
-                .ToList().ForEach(player => Console.WriteLine(player.Name));
-            lock (this.state.Players)
+            lock (state)
             {
-                this.state.Players[token].IsReady = readiness;
+                Console.WriteLine("Przed dodaniem: {0}", token);
+                state.Players.Values
+                    .ToList().ForEach(player => Console.WriteLine(player.Name));
+                lock (this.state.Players) {
+                    this.state.Players[token].IsReady = readiness;
+                }
             }
             InitGame();
         }
 
-        public void InitGame()
-        {
-            lock (this)
-            {
-                if (IsRequiredNumberOfPlayers() && IsEveryoneReady()) {
+        public void InitGame() {
+            lock (state) {
+                if (IsRequiredNumberOfPlayers() && IsEveryoneReady() && this.state.State == State.LOBBY) {
                     StartGame();
                 }
             }
         }
 
-        public bool IsRequiredNumberOfPlayers()
-        {
-            return this.state.Players.Keys.Count >= 2;
+        public void StartGame() {
+            lock (state)
+            {
+                this.state.State = State.WAIT_FOR_CARD;
+                InitializeRound();
+                BroadcastMessage("Rozpoczynanie rundy!\n");
+            }
         }
 
-        public bool IsEveryoneReady()
-        {
-            foreach (var playersValue in this.state.Players.Values)
+        public void InitializeRound() {
+            //Niepotrzebne tutaj, bo to akcja automatyczna, nie triggerowana przez użytkownika
+            // if (this.state.State != State.WAIT_FOR_CARD) {
+            //
+            //     return;
+            // }
+
+            lock (this.state)
             {
-                if (!playersValue.IsReady)
+                this.state.CurrentCard = this.state.Cards[rng.Next(1, this.state.Cards.Count)];
+                this.state.RoundNumber++;
+                if (state.RoundNumber > Config.MaxRoundNumber)
                 {
-                    return false;
+                    StopGame();
                 }
+                foreach (var playersValue in this.state.Players.Values) {
+                    playersValue.CardId = this.state.Cards[rng.Next(1, this.state.Cards.Count)].Id;
+                    playersValue.Callback.SendRoundData(new CardRoundDto(
+                        this.state.RoundNumber,
+                        this.state.CurrentCard,
+                        this.state.Cards[playersValue.CardId])
+                    );
+                }
+                this.picksQueue.Clear();
+                this.state.State = State.PICK_CARD;
             }
-
-            return true;
-        }
-
-        public void StartGame()
-        {
-            this.state.State = State.WAIT_FOR_CARD;
-            InitializeRound();
-            BroadcastMessage("Rozpoczynanie rundy!\n");
-        }
-
-        public void BroadcastMessage(string message)
-        {
-            this.state.Players
-                .Values
-                .Select(player => player.Callback)
-                .ToList()
-                .ForEach(callback => callback.SendLog(message));
-        }
-
-        public void InitializeRound()
-        {
-            if (this.state.State != State.WAIT_FOR_CARD)
-            {
-                return;
-            }
-
-            this.state.CurrentCard = this.state.Cards[rng.Next(1, this.state.Cards.Count)];
-
-            foreach (var playersValue in this.state.Players.Values)
-            {
-                playersValue.CardId = this.state.Cards[rng.Next(1, this.state.Cards.Count)].Id;
-                playersValue.Callback.SendRoundData(new CardRoundDto(this.state.CurrentCard, this.state.Cards[playersValue.CardId]));
-            }
-
-            this.state.State = State.PICK_CARD;
 
         }
 
         public void StopGame() {
+            lock (this.state)
+            {
+                this.state.State = State.END;
+                BroadcastMessage("Gra zakończona.");
+                SendLeaderboard();
+                this.state.GameTimer = new Timer(CleanupAfterGame, null, 30000, 0);
 
+
+                if (state.NextRoundTimer == null) return;
+                state.NextRoundTimer.Dispose();
+                state.NextRoundTimer = null;
+            }
         }
 
-        private int GenerateToken() {
-            int tokenToReturn;
-            do {
-                tokenToReturn = rng.Next();
-            } while (this.state.Players.Keys.Contains(tokenToReturn));
-
-            return tokenToReturn;
-        }
-
-        private bool ContainsName(string name) {
-            List<Player> playersToSearch = this.state.Players.Values.ToList();
-            foreach (var player in playersToSearch) {
-                if (string.Equals(name, player.Name)) {
-                    return true;
+        public void CleanupAfterGame(object arg)
+        {
+            lock (this.state)
+            {
+                BroadcastMessage("Zostałeś rozłączony (koniec gry)");
+                this.state.Players.Clear();
+                state.Players.Values.ToList()
+                    .ForEach(player => player.Callback.EndGame());
+                this.state = new GameState(CardSchema);
+                if (this.state.GameTimer != null)
+                {
+                    this.state.GameTimer.Dispose();
+                    this.state.GameTimer = null;
                 }
             }
-
-            return false;
         }
 
         public bool Disconnect(int token) {
@@ -192,58 +183,26 @@ namespace DobbleGameServer {
                 }
                 bool returnValue = Equals(this.state.Players.TryRemove(token, out var player));
 
-                player.Callback.SendLog("dupa");
+                Callback.SendLog("Opuszczono pokój gry.");
+                BroadcastMessage(player.Name + " opuścił grę.");
+                if (!IsRequiredNumberOfPlayers())
+                {
+                    BroadcastMessage("Brak wystarczającej liczby graczy do kontynuowania gry.");
+                    StopGame();
+                }
+
                 return returnValue;
             }
 
         }
 
-        public string getIdentity() {
-            return "NO U";
+        public Card[] GetCards()
+        {
+            lock (state)
+            {
+                return this.state.Cards.Values.ToArray();
+            }
         }
-
-        public Card[] GetCards() {
-            return this.state.Cards.Values.ToArray();
-        }
-
-        // private bool IsImage(string name)
-        // {
-        //     return name.EndsWith(".png") || name.EndsWith(".jpg") || name.EndsWith(".bmp");
-        // }
-        // private void LoadSymbolsFromFiles()
-        // {
-        //     var filesToLoad = Directory
-        //         .GetFiles(CARDS_PATH)
-        //         .Where(IsImage)
-        //         .ToArray();
-        //
-        //     int i = 0;
-        //     foreach (var file in filesToLoad)
-        //     {
-        //         i++;
-        //         byte[] imageBytes = File.ReadAllBytes(file);
-        //         this.Symbols.TryAdd(i, new Symbol(i, imageBytes));
-        //     }
-        // }
-        // Stara wersja - do przywrócenia jak ogarnięte zostanie przesyłanie obrazków przez sieć
-        // private void GenerateCardsFromSchema()
-        // {
-        //     int cardNo = 1;
-        //     foreach (var card in CardSchema)
-        //     {
-        //         Card cardToAdd = new Card();
-        //         cardToAdd.Id = cardNo++;
-        //         cardToAdd.Symbols = new Dictionary<int, Symbol>();
-        //         foreach (var symbolId in card)
-        //         {
-        //             Symbol symbolToAdd;
-        //             Symbols.TryGetValue(symbolId, out symbolToAdd);
-        //             cardToAdd.Symbols.Add(symbolId, symbolToAdd);
-        //         }
-        //
-        //         this.Cards.TryAdd(cardToAdd.Id, cardToAdd);
-        //     }
-        // }
     }
 
 

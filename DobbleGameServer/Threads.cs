@@ -42,15 +42,17 @@ namespace DobbleGameServer {
                 Thread.BeginCriticalRegion();
                 PlayerPickLock.EnterWriteLock();
 
-                if (this.state.CurrentCard.Symbols.Contains(pick.Pick)) {
+                if (this.state.CurrentCard.Symbols.Contains(pick.Pick) && state.Cards[state.Players[pick.PlayerToken].CardId].Symbols.Contains(pick.Pick)) {
                     this.state.State = State.WAIT_FOR_CARD;
                     this.picksQueue.Clear();
+                    BroadcastMessage(string.Format("Koniec rundy {0}, zwyciężył {1}", state.RoundNumber, state.Players[pick.PlayerToken].Name));
+                    this.InitializeRound();
                 }
                 else {
                     state.Players[pick.PlayerToken].Callback.LockClient();
 
                     Timer timer = new Timer(UnbanToken, pick.PlayerToken, 5000, System.Threading.Timeout.Infinite);
-                    BannedTokens.TryAdd(pick.PlayerToken, timer);
+                    state.BannedTokens.TryAdd(pick.PlayerToken, timer);
                 }
 
                 PlayerPickLock.ExitWriteLock();
@@ -59,10 +61,10 @@ namespace DobbleGameServer {
         }
 
         public void UnbanToken(object token) {
-            lock (BannedTokens)
+            lock (state.BannedTokens)
             {
-                BannedTokens[(int) token].Dispose();
-                BannedTokens.TryRemove((int)token, out _);
+                state.BannedTokens[(int) token].Dispose();
+                state.BannedTokens.TryRemove((int)token, out _);
                 state.Players[(int)token].Callback.SendLog("Zostałeś odblokowany.");
                 state.Players[(int)token].Callback.UnlockClient();
             }

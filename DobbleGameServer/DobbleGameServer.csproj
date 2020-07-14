@@ -52,6 +52,9 @@
     <Compile Include="dto\CardRoundDto.cs" />
     <Compile Include="dto\ConnectionRequest.cs" />
     <Compile Include="dto\PlayerDto.cs" />
+    <Compile Include="dto\ServerConfigDto.cs" />
+    <Compile Include="SymbolsLoader.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="utils\BlockingQueue.cs" />
     <Compile Include="data\Card.cs" />
     <Compile Include="data\GameState.cs" />

@@ -35,18 +35,37 @@ namespace TestClient {
 
         public void SendRoundData(CardRoundDto roundDto)
         {
+            Console.WriteLine("RUNDA NR: {0}", roundDto.RoundNumber);
             Console.WriteLine("Karta na stole: ");
             PrintCard(roundDto.CurrentCard);
             Console.WriteLine("Twoja karta: ");
             PrintCard(roundDto.PlayerCard);
         }
 
+        public void SendLeaderBoard(LeaderboardRow[] leaderboard)
+        {
+            leaderboard.ToList()
+                .ForEach(row => Console.WriteLine("{0} -> {1}", row.Name, row.Points));
+        }
+
+        public void EndGame()
+        {
+            Console.WriteLine("Serwer wywołał metodę zakończenia sesji - kończenie...");
+            Program.server.Close();
+        }
+
+        public int Ping()
+        {
+            return Program.server.Token;
+        }
+
         private void PrintCard(Card card)
         {
             Console.Write(card.Id + "=> {");
-            card.Symbols.ForEach(symbol => Console.Write(symbol));
+            card.Symbols.ForEach(symbol => Console.Write(symbol+", "));
             Console.Write("}\n");
         }
+
 
         // public void SendCards(Card[] cards) {
         //     foreach (var card in cards) {

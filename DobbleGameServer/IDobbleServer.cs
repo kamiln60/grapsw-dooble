@@ -45,10 +45,16 @@ namespace DobbleGameServer
         [OperationContract(IsOneWay = true)]
         void SendLog(string message);
 
-        [OperationContract(IsOneWay = true)]
+        [OperationContract(IsOneWay = true, IsInitiating = true)]
         void SendPlayerData(PlayerDto player);
 
         [OperationContract(IsOneWay = true)]
         void SendRoundData(CardRoundDto roundDto);
+        [OperationContract(IsOneWay = true)]
+        void SendLeaderBoard(List<LeaderboardRow> leaderboard);
+        [OperationContract(IsOneWay = true, IsTerminating = true)]
+        void EndGame();
+        [OperationContract]
+        int Ping();
     }
 }

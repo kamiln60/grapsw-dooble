@@ -51,4 +51,14 @@ namespace TestClient.menu.command {
             remote.PickACard(remote.Token, int.Parse(Console.ReadLine()));
         }
     }
+
+    public class LeaveCommand : Command<Server> {
+        public LeaveCommand(Server remote, string name) : base(remote, name) {
+        }
+        public override void execute()
+        {
+            Console.WriteLine("Opuszczono lobby.");
+            remote.Disconnect(remote.Token);
+        }
+    }
 }

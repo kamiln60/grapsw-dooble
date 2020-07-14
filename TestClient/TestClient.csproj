@@ -74,6 +74,9 @@
     <None Include="Connected Services\DobbleServiceReference\item4.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Connected Services\DobbleServiceReference\item5.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\DataSources\DobbleGameServer.data.Card.datasource" />
     <None Include="Properties\DataSources\DobbleGameServer.data.Player.datasource" />
     <None Include="Properties\DataSources\DobbleGameServer.data.Symbol.datasource" />
