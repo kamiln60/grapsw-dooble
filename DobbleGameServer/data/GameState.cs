@@ -23,11 +23,13 @@ namespace DobbleGameServer.data {
 
         public State State { get; set; }
 
+        public List<Player> PlayerList => Players.Values.ToList();
+
         public GameState(List<List<int>> cardSchema) {
             this.Players = new ConcurrentDictionary<int, Player>();
             this.Cards = new ConcurrentDictionary<int, Card>();
             this.BannedTokens = new ConcurrentDictionary<int, Timer>();
-            this.State = State.LOBBY;
+            this.State = State.Lobby;
 
             GenerateCardsFromSchema(cardSchema);
         }
@@ -48,9 +50,10 @@ namespace DobbleGameServer.data {
     }
 
     public enum State {
-        LOBBY,
-        PICK_CARD,
-        WAIT_FOR_CARD,
-        END
+        Lobby,
+        WaitForReadiness,
+        PickCard,
+        WaitForCard,
+        End
     }
 }

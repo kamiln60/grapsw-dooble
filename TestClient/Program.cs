@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using DobbleGameServer.data;
 using DobbleGameServer;
@@ -40,6 +41,7 @@ namespace TestClient {
             PrintCard(roundDto.CurrentCard);
             Console.WriteLine("Twoja karta: ");
             PrintCard(roundDto.PlayerCard);
+            Program.server.Ready = false;
         }
 
         public void SendLeaderBoard(LeaderboardRow[] leaderboard)
@@ -107,7 +109,8 @@ namespace TestClient {
             commands.Add(1, new JoinCommand(server, "Dołącz do lobby"));
             commands.Add(2, new DeclareReadinessCommand(server, "Zaznacz gotowość."));
             commands.Add(3, new PickCardCommand(server, "Wybierz kartę"));
-            //commands.Add(4, new );
+            commands.Add(4, new LeaveCommand(server, "Wyjdź z lobby"));
+            
 
             commands.Add(9, new ExitCommand(server, "Wyjdź"));
             menu.AddCommands(commands);
@@ -119,12 +122,11 @@ namespace TestClient {
                     menu.displayMenu();
                     var cmd = int.Parse(Console.ReadLine() ?? string.Empty);
                     menu.execute(cmd);
+                    Thread.Sleep(500);
                 }
                 catch (Exception e) {
                     Console.WriteLine(e.ToString());
                 }
-
-
             }
         }
     }

@@ -23,11 +23,18 @@ namespace DobbleGameServer {
         }
 
         public void BroadcastMessage(string message) {
-            this.state.Players
-                .Values
-                .Select(player => player.Callback)
-                .ToList()
-                .ForEach(callback => callback.SendLog(message));
+            try
+            {
+                this.state.Players
+                    .Values
+                    .Select(player => player.Callback)
+                    .ToList()
+                    .ForEach(callback => callback.SendLog(message));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         private int GenerateToken() {
@@ -50,8 +57,7 @@ namespace DobbleGameServer {
             return false;
         }
 
-        private void SendLeaderboard()
-        {
+        private void SendLeaderboard() {
             List<LeaderboardRow> leaderBoard = state.Players.Values
                 .Select(player => new LeaderboardRow(player.Name, player.Points))
                 .OrderByDescending(player => player.Points)
@@ -59,6 +65,38 @@ namespace DobbleGameServer {
             state.Players.Values
                 .ToList()
                 .ForEach(player => player.Callback.SendLeaderBoard(leaderBoard));
+        }
+
+        public void PingAllPlayers() {
+            ISet<int> set = new HashSet<int>();
+            foreach (var player in state.PlayerList) {
+
+                try {
+                    set.Add(player.Callback.Ping());
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e.Message);
+                }
+
+            }
+
+
+            lock (this.state) {
+                this.state.Players.Keys.ToList().ForEach(player =>
+                {
+                    if (!set.Contains(player))
+                    {
+                        state.Players.TryRemove(player, out var removedPlayer);
+                        BroadcastMessage(string.Format("{0} został usunięty za nieaktywność.", removedPlayer.Name));
+                    }
+                    
+                });
+
+                if (!IsRequiredNumberOfPlayers())
+                {
+                    StopGame();
+                }
+            }
         }
     }
     [DataContract]
@@ -68,8 +106,7 @@ namespace DobbleGameServer {
         [DataMember]
         public int Points { get; set; }
 
-        public LeaderboardRow(string name, int points)
-        {
+        public LeaderboardRow(string name, int points) {
             Name = name;
             Points = points;
         }
