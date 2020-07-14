@@ -63,6 +63,15 @@ namespace TestClient.DobbleServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IDobbleServer/SendRoundData")]
         void SendRoundData(DobbleGameServer.dto.CardRoundDto roundDto);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IDobbleServer/SendLeaderBoard")]
+        void SendLeaderBoard(DobbleGameServer.LeaderboardRow[] leaderboard);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, IsTerminating=true, Action="http://tempuri.org/IDobbleServer/EndGame")]
+        void EndGame();
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/Ping", ReplyAction="http://tempuri.org/IDobbleServer/PingResponse")]
+        int Ping();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]

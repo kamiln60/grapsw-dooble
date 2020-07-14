@@ -14,9 +14,12 @@ namespace DobbleGameServer.dto {
         public Card CurrentCard { get; set; }
         [DataMember]
         public Card PlayerCard { get; set; }
+        [DataMember]
+        public int RoundNumber { get; set; }
         
-        public CardRoundDto(Card currentCard, Card playerCard)
+        public CardRoundDto(int roundNo, Card currentCard, Card playerCard)
         {
+            RoundNumber = roundNo;
             CurrentCard = currentCard;
             PlayerCard = playerCard;
         }

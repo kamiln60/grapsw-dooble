@@ -28,6 +28,7 @@
     <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="e81ca445-c175-45d0-bfdf-c6a912b2e7a2" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd2" />
     <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="13de7c97-f3d5-447f-ba32-3f48ee9c370d" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd1" />
     <MetadataFile FileName="DobbleServer.wsdl" MetadataType="Wsdl" ID="0965c285-7e32-4117-bd3e-2c69dd847e47" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?wsdl" />
+    <MetadataFile FileName="item5.xsd" MetadataType="Schema" ID="36334e2a-14bc-4e79-91ee-fb8e9f02d90c" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd5" />
     <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="4a2daed2-72b2-4bbd-9675-5a6282878188" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd3" />
   </Metadata>
   <Extensions>

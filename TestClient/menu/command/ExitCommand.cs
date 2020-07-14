@@ -16,6 +16,7 @@ namespace TestClient.menu.command {
         {
             try
             {
+                
                 remote.Close();
             }
             finally

@@ -2,6 +2,7 @@
 <xs:schema xmlns:tns="http://tempuri.org/" elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="http://localhost:8000/DobbleServer/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/DobbleGameServer.data" />
   <xs:import schemaLocation="http://localhost:8000/DobbleServer/?xsd=xsd4" namespace="http://schemas.datacontract.org/2004/07/DobbleGameServer.dto" />
+  <xs:import schemaLocation="http://localhost:8000/DobbleServer/?xsd=xsd5" namespace="http://schemas.datacontract.org/2004/07/DobbleGameServer" />
   <xs:element name="Connect">
     <xs:complexType>
       <xs:sequence>
@@ -96,6 +97,30 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/DobbleGameServer.dto" minOccurs="0" name="roundDto" nillable="true" type="q3:CardRoundDto" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendLeaderBoard">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/DobbleGameServer" minOccurs="0" name="leaderboard" nillable="true" type="q4:ArrayOfLeaderboardRow" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="EndGame">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Ping">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="PingResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="PingResult" type="xs:int" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

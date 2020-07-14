@@ -41,16 +41,25 @@ namespace DobbleGameServer {
 
                 Thread.BeginCriticalRegion();
                 PlayerPickLock.EnterWriteLock();
-
-                if (this.state.CurrentCard.Symbols.Contains(pick.Pick)) {
-                    this.state.State = State.WAIT_FOR_CARD;
-                    this.picksQueue.Clear();
+                if (state.BannedTokens.ContainsKey(pick.PlayerToken)) {
+                    state.Players[pick.PlayerToken].Callback.SendLog("Trwa nałożona blokada.");
                 }
                 else {
-                    state.Players[pick.PlayerToken].Callback.LockClient();
-
-                    Timer timer = new Timer(UnbanToken, pick.PlayerToken, 5000, System.Threading.Timeout.Infinite);
-                    BannedTokens.TryAdd(pick.PlayerToken, timer);
+                    if (this.state.CurrentCard.Symbols.Contains(pick.Pick) && state.Cards[state.Players[pick.PlayerToken].CardId].Symbols.Contains(pick.Pick)) {
+                        this.state.State = State.WaitForReadiness;
+                        this.picksQueue.Clear();
+                        state.Players[pick.PlayerToken].Points++;
+                        BroadcastMessage(string.Format("Koniec rundy {0}, zwyciężył {1}", state.RoundNumber, state.Players[pick.PlayerToken].Name));
+                        //this.InitializeRound();
+                        BroadcastMessage("Oczekiwanie na gotowość graczy...");
+                        state.PlayerList.ForEach(player => player.IsReady = false);
+                    }
+                    else {
+                        state.Players[pick.PlayerToken].Callback.LockClient();
+                        BroadcastMessage(string.Format("{0}, 3 sekundy odpoczynku! (zły symbol)", state.Players[pick.PlayerToken]));
+                        Timer timer = new Timer(UnbanToken, pick.PlayerToken, 5000, System.Threading.Timeout.Infinite);
+                        state.BannedTokens.TryAdd(pick.PlayerToken, timer);
+                    }
                 }
 
                 PlayerPickLock.ExitWriteLock();
@@ -59,10 +68,9 @@ namespace DobbleGameServer {
         }
 
         public void UnbanToken(object token) {
-            lock (BannedTokens)
-            {
-                BannedTokens[(int) token].Dispose();
-                BannedTokens.TryRemove((int)token, out _);
+            lock (state.BannedTokens) {
+                state.BannedTokens[(int)token].Dispose();
+                state.BannedTokens.TryRemove((int)token, out _);
                 state.Players[(int)token].Callback.SendLog("Zostałeś odblokowany.");
                 state.Players[(int)token].Callback.UnlockClient();
             }
@@ -76,7 +84,7 @@ namespace DobbleGameServer {
                 Thread.BeginCriticalRegion();
                 ConnectionLock.EnterWriteLock();
 
-                if (this.state.State != State.LOBBY) {
+                if (this.state.State != State.Lobby) {
                     request.Callback.SendLog("Gra jest w toku. Spróbuj ponownie później.");
                 }
                 else {
