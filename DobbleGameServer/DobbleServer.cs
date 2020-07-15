@@ -93,7 +93,7 @@ namespace DobbleGameServer {
 
                 this.state.Players[token].IsReady = readiness;
                 int readyPlayersCount = (from players in state.PlayerList where players.IsReady select players).Count();
-                BroadcastMessage(string.Format("{0} zgłosił gotowość! ({1}/{2})",state.Players[token].Name, readyPlayersCount, state.PlayerList.Count));
+                BroadcastMessage(string.Format("{0} zgłosił gotowość! ({1}/{2})", state.Players[token].Name, readyPlayersCount, state.PlayerList.Count));
             }
             InitGame();
         }
@@ -104,10 +104,10 @@ namespace DobbleGameServer {
                     StartGame();
                 }
 
-                else if (IsRequiredNumberOfPlayers() && IsEveryoneReady() && this.state.State == State.WaitForReadiness)
-                {
+                else if (IsRequiredNumberOfPlayers() && IsEveryoneReady() && this.state.State == State.WaitForReadiness) {
                     this.state.State = State.WaitForCard;
-                    InitializeRound();
+                    BroadcastMessage(string.Format("Rozpoczynanie rundy za {0} sekund...\n", Config.RoundIntervalMS/1000));
+                    this.state.NextRoundTimer = new Timer(InitializeRound, null, Config.RoundIntervalMS, 0);
                 }
 
             }
@@ -116,15 +116,23 @@ namespace DobbleGameServer {
         public void StartGame() {
             lock (state) {
                 this.state.State = State.WaitForCard;
-                BroadcastMessage("Rozpoczynanie rundy!\n");
-                InitializeRound();
+                BroadcastMessage(string.Format("Rozpoczynanie rundy za {0} sekund...\n", Config.RoundIntervalMS / 1000));
+                this.state.NextRoundTimer = new Timer(InitializeRound, null, Config.RoundIntervalMS, 0);
+
             }
         }
 
-        public void InitializeRound() {
+        public void InitializeRound(object arg) {
             PingAllPlayers();
-            
+
+
+
             lock (this.state) {
+                if (this.state.NextRoundTimer != null) {
+                    this.state.NextRoundTimer.Dispose();
+                    this.state.NextRoundTimer = null;
+                }
+
                 if (this.state.State != State.WaitForCard) {
 
                     return;
@@ -178,15 +186,13 @@ namespace DobbleGameServer {
         }
 
         public bool Disconnect(int token) {
-            Console.WriteLine("Ok 1");
+
             lock (this.state) {
-                Console.WriteLine("Ok 2, {0}", token);
                 if (!this.state.Players.ContainsKey(token)) {
                     return false;
                 }
                 bool returnValue = this.state.Players.TryRemove(token, out var player);
-                
-                Console.WriteLine("Ok 3");
+
                 Callback.SendLog("Opuszczono pokój gry.");
                 BroadcastMessage(player.Name + " opuścił grę.");
                 if (!IsRequiredNumberOfPlayers()) {

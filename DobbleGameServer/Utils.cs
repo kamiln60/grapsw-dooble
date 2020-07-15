@@ -98,7 +98,8 @@ namespace DobbleGameServer {
                 }
             }
         }
-    }
+
+    }//End class
     [DataContract]
     public class LeaderboardRow {
         [DataMember]

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using TestClient.remote;
@@ -25,7 +26,9 @@ namespace TestClient.menu.command {
 
     public class JoinCommand : Command<Server> {
         public JoinCommand(Server remote, string name) : base(remote, name) {
+            new WSDualHttpBinding();
         }
+
         public override void execute() {
             Console.WriteLine("Wpisz nazwę: ");
             remote.Connect(Console.ReadLine());
