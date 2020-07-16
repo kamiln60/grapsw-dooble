@@ -51,8 +51,11 @@
     <Compile Include="CardSchemaGenerator.cs" />
     <Compile Include="dto\CardRoundDto.cs" />
     <Compile Include="dto\ConnectionRequest.cs" />
+    <Compile Include="dto\GameInfo.cs" />
     <Compile Include="dto\PlayerDto.cs" />
     <Compile Include="dto\ServerConfigDto.cs" />
+    <Compile Include="dto\ServerSettingsDto.cs" />
+    <Compile Include="GameCycle.cs" />
     <Compile Include="SymbolsLoader.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="utils\BlockingQueue.cs" />

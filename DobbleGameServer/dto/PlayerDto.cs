@@ -17,13 +17,16 @@ namespace DobbleGameServer.dto {
         public int Points { get; set; }
         [DataMember]
         public int CardId { get; set; }
+        [DataMember]
+        public bool IsAdmin { get; set; }
 
-        public PlayerDto(int token, Player player)
+        public PlayerDto(int token, Player player, bool isAdmin)
         {
             this.Id = token;
             this.Name = player.Name;
             this.Points = player.Points;
             this.CardId = player.CardId;
+            this.IsAdmin = isAdmin;
         }
 
         public override string ToString()

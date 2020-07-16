@@ -23,6 +23,9 @@ namespace DobbleGameServer
         Card[] GetCards();
 
         [OperationContract]
+        void ApplySettings(int token, ServerSettingsDto settings);
+
+        [OperationContract]
         void PickACard(int token, int symbolNo);
 
         [OperationContract]
@@ -47,6 +50,9 @@ namespace DobbleGameServer
 
         [OperationContract(IsOneWay = true, IsInitiating = true)]
         void SendPlayerData(PlayerDto player);
+
+        [OperationContract(IsOneWay = true)]
+        void SendGameInfo(GameInfo info);
 
         [OperationContract(IsOneWay = true)]
         void SendRoundData(CardRoundDto roundDto);

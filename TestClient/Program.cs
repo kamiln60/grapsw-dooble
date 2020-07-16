@@ -68,7 +68,9 @@ namespace TestClient {
             Console.Write("}\n");
         }
 
-
+        public void SendGameInfo(GameInfo info) {
+            Console.WriteLine("{0} jest adminem pokoju.", info.AdminName);
+        }
         // public void SendCards(Card[] cards) {
         //     foreach (var card in cards) {
         //         Console.WriteLine(card.Id);
@@ -87,7 +89,12 @@ namespace TestClient {
 
         private static void InitClient() {
             context = new InstanceContext(new CallbackHandler());
+            EndpointAddress endpoint = new EndpointAddress("http://192.168.1.2:8000/DobbleServer/");
+            WSDualHttpBinding binding = new WSDualHttpBinding(WSDualHttpSecurityMode.None);
+            //binding.Security.Mode = WSDualHttpSecurityMode.None;
             server = new Server(context);
+
+
         }
 
         static void Main(string[] args) {

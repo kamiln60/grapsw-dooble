@@ -33,6 +33,12 @@ namespace TestClient.DobbleServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/GetCards", ReplyAction="http://tempuri.org/IDobbleServer/GetCardsResponse")]
         System.Threading.Tasks.Task<DobbleGameServer.data.Card[]> GetCardsAsync();
         
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/ApplySettings", ReplyAction="http://tempuri.org/IDobbleServer/ApplySettingsResponse")]
+        void ApplySettings(int token, DobbleGameServer.dto.ServerSettingsDto settings);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/ApplySettings", ReplyAction="http://tempuri.org/IDobbleServer/ApplySettingsResponse")]
+        System.Threading.Tasks.Task ApplySettingsAsync(int token, DobbleGameServer.dto.ServerSettingsDto settings);
+        
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IDobbleServer/PickACard", ReplyAction="http://tempuri.org/IDobbleServer/PickACardResponse")]
         void PickACard(int token, int symbolNo);
         
@@ -60,6 +66,9 @@ namespace TestClient.DobbleServiceReference {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IDobbleServer/SendPlayerData")]
         void SendPlayerData(DobbleGameServer.dto.PlayerDto player);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IDobbleServer/SendGameInfo")]
+        void SendGameInfo(DobbleGameServer.dto.GameInfo info);
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/IDobbleServer/SendRoundData")]
         void SendRoundData(DobbleGameServer.dto.CardRoundDto roundDto);
@@ -124,6 +133,14 @@ namespace TestClient.DobbleServiceReference {
         
         public System.Threading.Tasks.Task<DobbleGameServer.data.Card[]> GetCardsAsync() {
             return base.Channel.GetCardsAsync();
+        }
+        
+        public void ApplySettings(int token, DobbleGameServer.dto.ServerSettingsDto settings) {
+            base.Channel.ApplySettings(token, settings);
+        }
+        
+        public System.Threading.Tasks.Task ApplySettingsAsync(int token, DobbleGameServer.dto.ServerSettingsDto settings) {
+            return base.Channel.ApplySettingsAsync(token, settings);
         }
         
         public void PickACard(int token, int symbolNo) {

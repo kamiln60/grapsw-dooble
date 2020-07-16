@@ -56,7 +56,7 @@ namespace DobbleGameServer {
                     }
                     else {
                         state.Players[pick.PlayerToken].Callback.LockClient();
-                        BroadcastMessage(string.Format("{0}, 3 sekundy odpoczynku! (zły symbol)", state.Players[pick.PlayerToken]));
+                        BroadcastMessage(string.Format("{0}, 3 sekundy odpoczynku! (zły symbol)", state.Players[pick.PlayerToken].Name));
                         Timer timer = new Timer(UnbanToken, pick.PlayerToken, 5000, System.Threading.Timeout.Infinite);
                         state.BannedTokens.TryAdd(pick.PlayerToken, timer);
                     }
@@ -88,10 +88,16 @@ namespace DobbleGameServer {
                     request.Callback.SendLog("Gra jest w toku. Spróbuj ponownie później.");
                 }
                 else {
+                    
                     Player player = new Player(request.Context, request.Name);
                     int token = GenerateToken();
+                    if (state.PlayerList.Count == 0)
+                    {
+                        this.state.AdminToken = token;
+                    }
+                        
                     this.state.Players.TryAdd(token, player);
-                    player.Callback.SendPlayerData(new PlayerDto(token, player));
+                    player.Callback.SendPlayerData(new PlayerDto(token, player, token == this.state.AdminToken));
                 }
 
                 ConnectionLock.ExitWriteLock();
@@ -99,7 +105,52 @@ namespace DobbleGameServer {
             }
         }
 
+        public void PingThread() {
+            int queueSignal;
+            while(true) {
+                queueSignal = pingQueue.Dequeue();
+                if(pingTimer != null) {
+                    PingAllPlayers();
+                    pingTimer = new Timer(pingCleanup, null, 5000, 0);
+                }
+            }
+        }
+
+        public void pingCleanup(object arg) {
+            if(pingTimer != null) {
+                pingTimer.Dispose();
+                pingTimer = null;
+            }
+        }
+
         #endregion
 
+        public void PingAllPlayers() {
+            ISet<int> set = new HashSet<int>();
+            foreach (var player in state.PlayerList) {
+
+                try {
+                    set.Add(player.Callback.Ping());
+                } catch (Exception e) {
+                    Console.WriteLine(e.Message);
+                }
+
+            }
+
+
+            lock (this.state) {
+                this.state.Players.Keys.ToList().ForEach(player => {
+                    if (!set.Contains(player)) {
+                        state.Players.TryRemove(player, out var removedPlayer);
+                        BroadcastMessage(string.Format("{0} został usunięty za nieaktywność.", removedPlayer.Name));
+                    }
+
+                });
+
+                if (!IsRequiredNumberOfPlayers()) {
+                    StopGame();
+                }
+            }
+        }
     }
 }

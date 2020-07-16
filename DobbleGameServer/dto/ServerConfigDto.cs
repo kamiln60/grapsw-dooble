@@ -15,8 +15,13 @@ namespace DobbleGameServer.dto {
         [DataMember] 
         public bool ReadinessEveryRound { get; } = true;
         [DataMember] 
-        public int MaxRoundNumber { get; } = 10;
+        public int MaxRoundNumber { get; set; } = 10;
         [DataMember]
-        public int SymbolsPerCard { get; } = 6;
+        public int SymbolsPerCard { get; set; } = 6;
+
+        public void AcceptSettings(ServerSettingsDto settings) {
+            this.MaxRoundNumber = settings.MaxRoundNumber;
+            this.SymbolsPerCard = settings.SymbolsPerCard;
+        }
     }
 }
