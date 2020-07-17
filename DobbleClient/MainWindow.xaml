@@ -1,0 +1,23 @@
+﻿<Window x:Class="DobbleClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DobbleClient"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800">
+    <Grid>
+        <Button Content="Dołacz do gry" HorizontalAlignment="Left" Margin="131,6,0,0" VerticalAlignment="Top" Width="125" Click="Button_Click_1"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="0,6,0,0" TextWrapping="Wrap" Text="Nickname" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
+        <Frame Content="" HorizontalAlignment="Left" Height="547" Margin="0,29,-0.4,-5.6" VerticalAlignment="Top" Width="794" RenderTransformOrigin="-0.316,-0.112" x:Name="myframe" Navigated="Main_Navigated" NavigationUIVisibility="Hidden">
+            <Frame.Background>
+                <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5">
+                    <GradientStop Color="#FF3D7C88" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </RadialGradientBrush>
+            </Frame.Background>
+        </Frame>
+
+
+    </Grid>
+</Window>

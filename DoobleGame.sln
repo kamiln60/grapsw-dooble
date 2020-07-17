@@ -3,11 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuiDoobleGame", "GuiDoobleGame\GuiDoobleGame.csproj", "{AF929A8B-8161-4493-AEEA-D906B092C261}"
-	ProjectSection(ProjectDependencies) = postProject
-		{590D9295-5E82-46C1-B859-B763555AEA18} = {590D9295-5E82-46C1-B859-B763555AEA18}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DobbleServerHost", "DobbleServerHost\DobbleServerHost.csproj", "{F48CDC51-D982-4173-BF39-A2069E4B3745}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DobbleGameServer", "DobbleGameServer\DobbleGameServer.csproj", "{590D9295-5E82-46C1-B859-B763555AEA18}"
@@ -17,16 +12,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClient", "TestClient\Te
 		{590D9295-5E82-46C1-B859-B763555AEA18} = {590D9295-5E82-46C1-B859-B763555AEA18}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DobbleClient", "DobbleClient\DobbleClient.csproj", "{3FEFEF2D-8FB1-42EC-9202-71799947C245}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AF929A8B-8161-4493-AEEA-D906B092C261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF929A8B-8161-4493-AEEA-D906B092C261}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF929A8B-8161-4493-AEEA-D906B092C261}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF929A8B-8161-4493-AEEA-D906B092C261}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F48CDC51-D982-4173-BF39-A2069E4B3745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F48CDC51-D982-4173-BF39-A2069E4B3745}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F48CDC51-D982-4173-BF39-A2069E4B3745}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +32,10 @@ Global
 		{65AAAA00-1956-4553-A540-2CCF48F4D380}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65AAAA00-1956-4553-A540-2CCF48F4D380}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65AAAA00-1956-4553-A540-2CCF48F4D380}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FEFEF2D-8FB1-42EC-9202-71799947C245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FEFEF2D-8FB1-42EC-9202-71799947C245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FEFEF2D-8FB1-42EC-9202-71799947C245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FEFEF2D-8FB1-42EC-9202-71799947C245}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
