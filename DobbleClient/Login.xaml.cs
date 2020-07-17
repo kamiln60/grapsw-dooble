@@ -47,7 +47,7 @@ namespace DobbleClient
 
         private void hulp(object sender, RoutedEventArgs e)
         {
-          /* hulp h = new hulp();
+         /* hulp h = new hulp();
            this.NavigationService.Navigate(h);*/
         }
     }
