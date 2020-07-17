@@ -148,7 +148,7 @@ namespace DobbleGameServer {
 
                 Callback.SendLog("Opuszczono pokój gry.");
                 BroadcastMessage(player.Name + " opuścił grę.");
-                if (!IsRequiredNumberOfPlayers()) {
+                if (!IsRequiredNumberOfPlayers() && state.State != State.Lobby) {
                     BroadcastMessage("Brak wystarczającej liczby graczy do kontynuowania gry.");
                     StopGame();
                 }

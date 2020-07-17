@@ -40,30 +40,8 @@ namespace GuiDoobleGame
         public MainWindow()
         {
             InitializeComponent();
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-
-        }
-
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-           
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            myframe.Content = new Page1();
-        }
-
-        private void Main_Navigated(object sender, NavigationEventArgs e)
-        {
-
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
+            
         }
     }
 }

@@ -13,20 +13,20 @@ namespace DobbleGameServer {
     public partial class DobbleServer {
         public Thread PlayerPickThread { get; set; }
         public Thread ConnectionManagementThread { get; set; }
+        public Thread PingThread { get; set; }
 
-        public ReaderWriterLockSlim PlayerPickLock { get; set; }
-
-        public ReaderWriterLockSlim ConnectionLock { get; set; }
+        public ReaderWriterLockSlim RWLock { get; set; }
 
         public void InitializeThreads() {
             this.PlayerPickThread = new Thread(PlayerPickThreadMethod);
             this.ConnectionManagementThread = new Thread(ConnectionManagementThreadMethod);
-            this.PlayerPickLock = new ReaderWriterLockSlim();
-            this.ConnectionLock = new ReaderWriterLockSlim();
+            this.PingThread = new Thread(PingThreadMethod);
+            this.RWLock= new ReaderWriterLockSlim();
 
 
             this.ConnectionManagementThread.Start();
             this.PlayerPickThread.Start();
+            this.PingThread.Start();
 
         }
 
@@ -40,7 +40,7 @@ namespace DobbleGameServer {
                 pick = picksQueue.Dequeue();
 
                 Thread.BeginCriticalRegion();
-                PlayerPickLock.EnterWriteLock();
+                RWLock.EnterWriteLock();
                 if (state.BannedTokens.ContainsKey(pick.PlayerToken)) {
                     state.Players[pick.PlayerToken].Callback.SendLog("Trwa nałożona blokada.");
                 }
@@ -62,7 +62,7 @@ namespace DobbleGameServer {
                     }
                 }
 
-                PlayerPickLock.ExitWriteLock();
+                RWLock.ExitWriteLock();
                 Thread.EndCriticalRegion();
             }
         }
@@ -82,7 +82,7 @@ namespace DobbleGameServer {
                 request = connectionQueue.Dequeue();
                 Console.WriteLine("Odebrano połączenie od: {0}", request.Name);
                 Thread.BeginCriticalRegion();
-                ConnectionLock.EnterWriteLock();
+                RWLock.EnterWriteLock();
 
                 if (this.state.State != State.Lobby) {
                     request.Callback.SendLog("Gra jest w toku. Spróbuj ponownie później.");
@@ -94,18 +94,19 @@ namespace DobbleGameServer {
                     if (state.PlayerList.Count == 0)
                     {
                         this.state.AdminToken = token;
+                        player.Callback.SendLog("Zostałeś adminem pokoju.");
                     }
                         
                     this.state.Players.TryAdd(token, player);
                     player.Callback.SendPlayerData(new PlayerDto(token, player, token == this.state.AdminToken));
                 }
 
-                ConnectionLock.ExitWriteLock();
+                RWLock.ExitWriteLock();
                 Thread.EndCriticalRegion();
             }
         }
 
-        public void PingThread() {
+        public void PingThreadMethod() {
             int queueSignal;
             while(true) {
                 queueSignal = pingQueue.Dequeue();
