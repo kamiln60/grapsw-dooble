@@ -25,6 +25,10 @@ namespace DobbleGameServer {
 
         private BlockingQueue<ConnectionRequest> connectionQueue;
 
+        private BlockingQueue<int> pingQueue;
+
+        private Timer pingTimer;
+
         private List<List<int>> CardSchema;
 
         private ServerConfigDto Config;
@@ -35,15 +39,17 @@ namespace DobbleGameServer {
 
             this.picksQueue = new BlockingQueue<PlayerPick>();
             this.connectionQueue = new BlockingQueue<ConnectionRequest>();
+            this.pingQueue = new BlockingQueue<int>();
             this.Config = new ServerConfigDto();
 
             Console.WriteLine("Generowanie kart dla liczby symboli na każdej: {0} - spodziewana liczba potrzebnych symboli: {1}", Config.SymbolsPerCard, GetNumberOfCards(Config.SymbolsPerCard));
 
             this.CardSchema = GenerateCardSchema(Config.SymbolsPerCard, out _, out _);
-            this.state = new GameState(this.CardSchema);
+            rng = new Random();
+            this.state = new GameState(this.CardSchema, rng);
             //LoadSymbolsFromFiles();
 
-            rng = new Random();
+            
 
             InitializeThreads();
 
@@ -66,6 +72,38 @@ namespace DobbleGameServer {
 
             }
             return true;
+        }
+
+        public void ApplySettings(int token, ServerSettingsDto settings)
+        {
+            pingQueue.Enqueue(1);
+            lock (this.state)
+            {
+                if (!state.Players.ContainsKey(token)) {
+                    Callback.SendLog("Gracz nie jest członkiem tej gry!");
+                    return;
+                }
+                if (state.AdminToken != token)
+                {
+                    Callback.SendLog("Gracz nie ma uprawnień do zmiany ustawień.");
+                    return;
+                }
+
+                if (state.State != State.Lobby)
+                {
+                    Callback.SendLog("Zmiana ustawień nie jest możliwa po rozpoczęciu gry.");
+                }
+
+                this.Config.AcceptSettings(settings);
+                var gameInfo = new GameInfo(state.Players[token].Name, this.Config, this.state.State);
+                
+                ExecuteForAllPlayers(player =>
+                {
+                    player.Callback.SendLog(string.Format("Administrator pokoju {0} zmienił kilka ustawień.", state.Players[token].Name));
+                    player.Callback.SendGameInfo(gameInfo);
+                });
+
+            }
         }
 
         public void PickACard(int token, int symbolNo) {
@@ -93,100 +131,21 @@ namespace DobbleGameServer {
 
                 this.state.Players[token].IsReady = readiness;
                 int readyPlayersCount = (from players in state.PlayerList where players.IsReady select players).Count();
-                BroadcastMessage(string.Format("{0} zgłosił gotowość! ({1}/{2})",state.Players[token].Name, readyPlayersCount, state.PlayerList.Count));
+                BroadcastMessage(string.Format("{0} zgłosił gotowość! ({1}/{2})", state.Players[token].Name, readyPlayersCount, state.PlayerList.Count));
             }
             InitGame();
         }
 
-        public void InitGame() {
-            lock (state) {
-                if (IsRequiredNumberOfPlayers() && IsEveryoneReady() && this.state.State == State.Lobby) {
-                    StartGame();
-                }
-
-                else if (IsRequiredNumberOfPlayers() && IsEveryoneReady() && this.state.State == State.WaitForReadiness)
-                {
-                    this.state.State = State.WaitForCard;
-                    InitializeRound();
-                }
-
-            }
-        }
-
-        public void StartGame() {
-            lock (state) {
-                this.state.State = State.WaitForCard;
-                BroadcastMessage("Rozpoczynanie rundy!\n");
-                InitializeRound();
-            }
-        }
-
-        public void InitializeRound() {
-            PingAllPlayers();
-            
-            lock (this.state) {
-                if (this.state.State != State.WaitForCard) {
-
-                    return;
-                }
-                this.state.CurrentCard = this.state.Cards[rng.Next(1, this.state.Cards.Count)];
-                this.state.RoundNumber++;
-                if (state.RoundNumber > Config.MaxRoundNumber) {
-                    StopGame();
-                    return;
-                }
-                foreach (var playersValue in this.state.Players.Values) {
-                    playersValue.CardId = this.state.Cards[rng.Next(1, this.state.Cards.Count)].Id;
-                    playersValue.Callback.SendRoundData(new CardRoundDto(
-                        this.state.RoundNumber,
-                        this.state.CurrentCard,
-                        this.state.Cards[playersValue.CardId])
-                    );
-                }
-                this.picksQueue.Clear();
-                this.state.State = State.PickCard;
-            }
-
-        }
-
-        public void StopGame() {
-            lock (this.state) {
-                this.state.State = State.End;
-                BroadcastMessage("Gra zakończona.");
-                SendLeaderboard();
-                this.state.GameTimer = new Timer(CleanupAfterGame, null, 30000, 0);
-
-
-                if (state.NextRoundTimer == null) return;
-                state.NextRoundTimer.Dispose();
-                state.NextRoundTimer = null;
-            }
-        }
-
-        public void CleanupAfterGame(object arg) {
-            lock (this.state) {
-                BroadcastMessage("Zostałeś rozłączony (koniec gry)");
-                this.state.Players.Clear();
-                state.Players.Values.ToList()
-                    .ForEach(player => player.Callback.EndGame());
-                this.state = new GameState(CardSchema);
-                if (this.state.GameTimer != null) {
-                    this.state.GameTimer.Dispose();
-                    this.state.GameTimer = null;
-                }
-            }
-        }
+        
 
         public bool Disconnect(int token) {
-            Console.WriteLine("Ok 1");
+
             lock (this.state) {
-                Console.WriteLine("Ok 2, {0}", token);
                 if (!this.state.Players.ContainsKey(token)) {
                     return false;
                 }
                 bool returnValue = this.state.Players.TryRemove(token, out var player);
-                
-                Console.WriteLine("Ok 3");
+
                 Callback.SendLog("Opuszczono pokój gry.");
                 BroadcastMessage(player.Name + " opuścił grę.");
                 if (!IsRequiredNumberOfPlayers()) {

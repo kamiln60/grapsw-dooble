@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="489ea85d-bbce-47ca-abce-cab345a0e2c7" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="0f2e7778-2e27-4d4c-8870-478d34feebb8" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -19,17 +19,17 @@
     <ServiceContractMappings />
   </ClientOptions>
   <MetadataSources>
-    <MetadataSource Address="http://localhost:8000/DobbleServer/" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://192.168.1.52:8000/DobbleServer/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="072e9950-1d80-40fc-83f4-3e82ad26dde5" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd0" />
-    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="7fa79032-b87d-4a60-aeb4-79132a5fdf7c" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?disco" />
-    <MetadataFile FileName="item4.xsd" MetadataType="Schema" ID="6552a2f5-e930-4a27-adab-5a62a3301161" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd4" />
-    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="e81ca445-c175-45d0-bfdf-c6a912b2e7a2" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd2" />
-    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="13de7c97-f3d5-447f-ba32-3f48ee9c370d" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd1" />
-    <MetadataFile FileName="DobbleServer.wsdl" MetadataType="Wsdl" ID="0965c285-7e32-4117-bd3e-2c69dd847e47" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?wsdl" />
-    <MetadataFile FileName="item5.xsd" MetadataType="Schema" ID="36334e2a-14bc-4e79-91ee-fb8e9f02d90c" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd5" />
-    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="4a2daed2-72b2-4bbd-9675-5a6282878188" SourceId="1" SourceUrl="http://localhost:8000/DobbleServer/?xsd=xsd3" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="73cffbf2-f175-427d-bcbe-3a0c3a758ff0" SourceId="1" SourceUrl="http://192.168.1.52:8000/DobbleServer/?xsd=xsd1" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="e78b8e94-3afd-45fe-9e21-ea1011c8c139" SourceId="1" SourceUrl="http://192.168.1.52:8000/DobbleServer/?xsd=xsd4" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="77ad9e40-3261-4e10-b81c-665ee0f40e14" SourceId="1" SourceUrl="http://192.168.1.52:8000/DobbleServer/?xsd=xsd5" />
+    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="edcdd318-4b49-4398-bc75-028875295bec" SourceId="1" SourceUrl="http://192.168.1.52:8000/DobbleServer/?xsd=xsd3" />
+    <MetadataFile FileName="item.disco" MetadataType="Disco" ID="7f7bb064-e5e5-4d6b-ad6a-ae82a53d056d" SourceId="1" SourceUrl="http://192.168.1.52:8000/DobbleServer/?disco" />
+    <MetadataFile FileName="DobbleServer.wsdl" MetadataType="Wsdl" ID="7afd78f9-2e01-4f50-8013-d03daf6c14c7" SourceId="1" SourceUrl="http://192.168.1.52:8000/DobbleServer/?wsdl" />
+    <MetadataFile FileName="item4.xsd" MetadataType="Schema" ID="283e63ec-e1ac-447e-88c6-bf1851839945" SourceId="1" SourceUrl="http://192.168.1.52:8000/DobbleServer/?xsd=xsd2" />
+    <MetadataFile FileName="item5.xsd" MetadataType="Schema" ID="1e8a8070-9a3f-40fa-ab17-8d8f1af3ff11" SourceId="1" SourceUrl="http://192.168.1.52:8000/DobbleServer/?xsd=xsd0" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

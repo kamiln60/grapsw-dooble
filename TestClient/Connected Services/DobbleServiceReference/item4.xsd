@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/DobbleGameServer.dto" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/DobbleGameServer.dto" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://localhost:8000/DobbleServer/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/DobbleGameServer.data" />
-  <xs:complexType name="PlayerDto">
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/DobbleGameServer.data" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/DobbleGameServer.data" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://192.168.1.52:8000/DobbleServer/?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+  <xs:complexType name="ArrayOfCard">
     <xs:sequence>
-      <xs:element minOccurs="0" name="CardId" type="xs:int" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Card" nillable="true" type="tns:Card" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfCard" nillable="true" type="tns:ArrayOfCard" />
+  <xs:complexType name="Card">
+    <xs:sequence>
       <xs:element minOccurs="0" name="Id" type="xs:int" />
-      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="Points" type="xs:int" />
+      <xs:element xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays" minOccurs="0" name="Symbols" nillable="true" type="q1:ArrayOfint" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="PlayerDto" nillable="true" type="tns:PlayerDto" />
-  <xs:complexType name="CardRoundDto">
-    <xs:sequence>
-      <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/DobbleGameServer.data" minOccurs="0" name="CurrentCard" nillable="true" type="q1:Card" />
-      <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/DobbleGameServer.data" minOccurs="0" name="PlayerCard" nillable="true" type="q2:Card" />
-      <xs:element minOccurs="0" name="RoundNumber" type="xs:int" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="CardRoundDto" nillable="true" type="tns:CardRoundDto" />
+  <xs:element name="Card" nillable="true" type="tns:Card" />
+  <xs:simpleType name="State">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Lobby" />
+      <xs:enumeration value="WaitForReadiness" />
+      <xs:enumeration value="PickCard" />
+      <xs:enumeration value="WaitForCard" />
+      <xs:enumeration value="End" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="State" nillable="true" type="tns:State" />
 </xs:schema>

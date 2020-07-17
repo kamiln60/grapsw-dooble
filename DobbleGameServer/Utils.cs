@@ -23,18 +23,21 @@ namespace DobbleGameServer {
         }
 
         public void BroadcastMessage(string message) {
-            try
-            {
+            try {
                 this.state.Players
                     .Values
                     .Select(player => player.Callback)
                     .ToList()
                     .ForEach(callback => callback.SendLog(message));
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Console.WriteLine(e.Message);
             }
+        }
+
+        public void ExecuteForAllPlayers(Action<Player> action)
+        {
+            this.state.PlayerList
+                .ForEach(action);
         }
 
         private int GenerateToken() {
@@ -67,38 +70,22 @@ namespace DobbleGameServer {
                 .ForEach(player => player.Callback.SendLeaderBoard(leaderBoard));
         }
 
-        public void PingAllPlayers() {
-            ISet<int> set = new HashSet<int>();
-            foreach (var player in state.PlayerList) {
+        
 
-                try {
-                    set.Add(player.Callback.Ping());
-                }
-                catch (Exception e) {
-                    Console.WriteLine(e.Message);
-                }
+        public Card GetRandomUniqueCard() {
+            lock(this.state.CardsInUse) {
+                Card randomCard = null;
 
-            }
-
-
-            lock (this.state) {
-                this.state.Players.Keys.ToList().ForEach(player =>
-                {
-                    if (!set.Contains(player))
-                    {
-                        state.Players.TryRemove(player, out var removedPlayer);
-                        BroadcastMessage(string.Format("{0} został usunięty za nieaktywność.", removedPlayer.Name));
-                    }
-                    
-                });
-
-                if (!IsRequiredNumberOfPlayers())
-                {
-                    StopGame();
-                }
+                do {
+                    randomCard = this.state.Cards[rng.Next(1, this.state.Cards.Count)];
+                } while (state.CardsInUse.Contains(randomCard));
+                state.CardsInUse.Add(randomCard);
+                return randomCard;
             }
         }
-    }
+
+        
+    }//End class
     [DataContract]
     public class LeaderboardRow {
         [DataMember]

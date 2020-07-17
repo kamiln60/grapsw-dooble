@@ -13,12 +13,12 @@ namespace DobbleServerHost
     {
         static void Main(string[] args)
         {
-            Uri baseAddress = new Uri("http://localhost:8000/DobbleServer/");
+            Uri baseAddress = new Uri("http://192.168.1.52:8000/DobbleServer/");
             ServiceHost selfHost = new ServiceHost(typeof(DobbleServer), baseAddress);
 
             try
             {
-                selfHost.AddServiceEndpoint(typeof(IDobbleServer), new WSDualHttpBinding(), "DobbleGameServer");
+                selfHost.AddServiceEndpoint(typeof(IDobbleServer), new WSDualHttpBinding(WSDualHttpSecurityMode.None), "DobbleGameServer");
                 ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
                 smb.HttpGetEnabled = true;
                 selfHost.Description.Behaviors.Find<ServiceDebugBehavior>().IncludeExceptionDetailInFaults = true;
