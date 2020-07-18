@@ -17,11 +17,14 @@ namespace DobbleGameServer {
 
         public ReaderWriterLockSlim RWLock { get; set; }
 
+        public ReaderWriterLockSlim GameLobbyLock { get; set; }
+
         public void InitializeThreads() {
             this.PlayerPickThread = new Thread(PlayerPickThreadMethod);
             this.ConnectionManagementThread = new Thread(ConnectionManagementThreadMethod);
             this.PingThread = new Thread(PingThreadMethod);
             this.RWLock= new ReaderWriterLockSlim();
+            this.GameLobbyLock = new ReaderWriterLockSlim();
 
 
             this.ConnectionManagementThread.Start();
@@ -49,6 +52,8 @@ namespace DobbleGameServer {
                         this.state.State = State.WaitForReadiness;
                         this.picksQueue.Clear();
                         state.Players[pick.PlayerToken].Points++;
+                        state.Leaderboard[pick.PlayerToken].Points++;
+                        NotifyEveryoneAboutRoundEnd(state.RoundNumber);
                         BroadcastMessage(string.Format("Koniec rundy {0}, zwyciężył {1}", state.RoundNumber, state.Players[pick.PlayerToken].Name));
                         //this.InitializeRound();
                         BroadcastMessage("Oczekiwanie na gotowość graczy...");
@@ -84,13 +89,19 @@ namespace DobbleGameServer {
                 Thread.BeginCriticalRegion();
                 RWLock.EnterWriteLock();
 
+                
+
                 if (this.state.State != State.Lobby) {
                     request.Callback.SendLog("Gra jest w toku. Spróbuj ponownie później.");
+                }
+                else if(ContainsName(request.Name)) {
+                    request.Callback.SendLog("Nazwa gracza zajęta, proszę wybrać inną.");
                 }
                 else {
                     
                     Player player = new Player(request.Context, request.Name);
                     int token = GenerateToken();
+                    player.Id = token;
                     if (state.PlayerList.Count == 0)
                     {
                         this.state.AdminToken = token;
@@ -99,6 +110,8 @@ namespace DobbleGameServer {
                         
                     this.state.Players.TryAdd(token, player);
                     player.Callback.SendPlayerData(new PlayerDto(token, player, token == this.state.AdminToken));
+                    this.state.Leaderboard.TryAdd(token, new LeaderboardRow(player.Name, player.Points));
+                    BroadcastPlayerList();
                 }
 
                 RWLock.ExitWriteLock();
@@ -147,7 +160,7 @@ namespace DobbleGameServer {
                     }
 
                 });
-
+                BroadcastPlayerList();
                 if (!IsRequiredNumberOfPlayers()) {
                     StopGame();
                 }

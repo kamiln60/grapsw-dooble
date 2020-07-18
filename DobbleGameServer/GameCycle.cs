@@ -6,16 +6,18 @@ using System.Threading;
 namespace DobbleGameServer {
     public partial class DobbleServer {
         public void InitGame() {
+            GameLobbyLock.EnterWriteLock();
             lock (state) {
                 if (IsRequiredNumberOfPlayers() && IsEveryoneReady() && this.state.State == State.Lobby) {
                     StartGame();
                 } else if (IsRequiredNumberOfPlayers() && IsEveryoneReady() && this.state.State == State.WaitForReadiness) {
                     this.state.State = State.WaitForCard;
                     BroadcastMessage(string.Format("Rozpoczynanie rundy za {0} sekund...\n", Config.RoundIntervalMS / 1000));
+                    NotifyEveryoneAboutRoundStart(state.RoundNumber+1);
                     this.state.NextRoundTimer = new Timer(InitializeRound, null, Config.RoundIntervalMS, 0);
                 }
-
             }
+            GameLobbyLock.ExitWriteLock();
         }
 
         public void StartGame() {
@@ -25,6 +27,7 @@ namespace DobbleGameServer {
                 this.state.GenerateCardsFromSchema(CardSchema, rng);
 
                 BroadcastMessage(string.Format("Rozpoczynanie rundy za {0} sekund...\n", Config.RoundIntervalMS / 1000));
+                NotifyEveryoneAboutRoundStart(state.RoundNumber+1);
                 this.state.NextRoundTimer = new Timer(InitializeRound, null, Config.RoundIntervalMS, 0);
 
             }

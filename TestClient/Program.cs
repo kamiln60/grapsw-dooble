@@ -71,6 +71,18 @@ namespace TestClient {
         public void SendGameInfo(GameInfo info) {
             Console.WriteLine("{0} jest adminem pokoju.", info.AdminName);
         }
+
+        public void SendPlayerList(PlayerDto[] players) {
+            players.ToList().ForEach(player => Console.WriteLine(player.ToString()));
+        }
+
+        public void NotifyRoundStart(int round) {
+            //throw new NotImplementedException();
+        }
+
+        public void NotifyRoundEnd(int round) {
+            //throw new NotImplementedException();
+        }
         // public void SendCards(Card[] cards) {
         //     foreach (var card in cards) {
         //         Console.WriteLine(card.Id);
@@ -116,7 +128,8 @@ namespace TestClient {
             commands.Add(1, new JoinCommand(server, "Dołącz do lobby"));
             commands.Add(2, new DeclareReadinessCommand(server, "Zaznacz gotowość."));
             commands.Add(3, new PickCardCommand(server, "Wybierz kartę"));
-            commands.Add(4, new LeaveCommand(server, "Wyjdź z lobby"));
+            commands.Add(4, new ChangeSettingsCommand(server, "Zmień ustawienia"));
+            commands.Add(5, new LeaveCommand(server, "Wyjdź z lobby"));
             
 
             commands.Add(9, new ExitCommand(server, "Wyjdź"));

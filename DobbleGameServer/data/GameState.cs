@@ -11,6 +11,8 @@ namespace DobbleGameServer.data {
         public ConcurrentDictionary<int, Player> Players { get; set; }
         public ConcurrentDictionary<int, Card> Cards { get; set; }
 
+        public ConcurrentDictionary<int, LeaderboardRow> Leaderboard { get; set; }
+
         public ISet<Card> CardsInUse;
 
         public Timer NextRoundTimer { get; set; }
@@ -33,6 +35,7 @@ namespace DobbleGameServer.data {
             this.Players = new ConcurrentDictionary<int, Player>();
             this.Cards = new ConcurrentDictionary<int, Card>();
             this.BannedTokens = new ConcurrentDictionary<int, Timer>();
+            this.Leaderboard = new ConcurrentDictionary<int, LeaderboardRow>();
             this.CardsInUse = new HashSet<Card>();
             this.State = State.Lobby;
 
