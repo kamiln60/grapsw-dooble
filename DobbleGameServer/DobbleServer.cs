@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IdentityModel;
-using System.Security.Claims;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
-using System.Threading;
-using DobbleGameServer.data;
+﻿using DobbleGameServer.data;
 using DobbleGameServer.dto;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.ServiceModel;
+using System.Threading;
 
 namespace DobbleGameServer {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single, ConcurrencyMode = ConcurrencyMode.Multiple)]
@@ -67,7 +59,7 @@ namespace DobbleGameServer {
                     Callback.SendLog("Nazwa gracza zajęta, proszę wybrać inną.");
                     return false;
                 }
-
+                pingQueue.Enqueue(1);
                 connectionQueue.Enqueue(new ConnectionRequest(OperationContext.Current, name));
 
             }
@@ -77,8 +69,7 @@ namespace DobbleGameServer {
         public void ApplySettings(int token, ServerSettingsDto settings)
         {
             pingQueue.Enqueue(1);
-            lock (this.state)
-            {
+            GameLobbyLock.EnterWriteLock();
                 if (!state.Players.ContainsKey(token)) {
                     Callback.SendLog("Gracz nie jest członkiem tej gry!");
                     return;
@@ -95,15 +86,19 @@ namespace DobbleGameServer {
                 }
 
                 this.Config.AcceptSettings(settings);
-                var gameInfo = new GameInfo(state.Players[token].Name, this.Config, this.state.State);
+                var gameInfo = new GameInfo(state.Players[token].Name, this.Config);
                 
                 ExecuteForAllPlayers(player =>
                 {
-                    player.Callback.SendLog(string.Format("Administrator pokoju {0} zmienił kilka ustawień.", state.Players[token].Name));
-                    player.Callback.SendGameInfo(gameInfo);
+                    try {
+                        player.Callback.SendLog(string.Format("Administrator pokoju {0} zmienił kilka ustawień.", state.Players[token].Name));
+                        player.Callback.SendGameInfo(gameInfo);
+                    } catch(Exception e) {
+                        Console.WriteLine("Przechwyciłem wyjątek: {0}", e.Message);
+                    }
                 });
-
-            }
+            GameLobbyLock.ExitWriteLock();
+            
         }
 
         public void PickACard(int token, int symbolNo) {
@@ -127,12 +122,15 @@ namespace DobbleGameServer {
                 Callback.SendLog("Nie jesteś przyłączony do lobby.");
                 return;
             }
-            lock (state) {
+
+            GameLobbyLock.EnterWriteLock();
 
                 this.state.Players[token].IsReady = readiness;
                 int readyPlayersCount = (from players in state.PlayerList where players.IsReady select players).Count();
                 BroadcastMessage(string.Format("{0} zgłosił gotowość! ({1}/{2})", state.Players[token].Name, readyPlayersCount, state.PlayerList.Count));
-            }
+
+            GameLobbyLock.ExitWriteLock();
+            BroadcastPlayerList();
             InitGame();
         }
 
@@ -141,6 +139,7 @@ namespace DobbleGameServer {
         public bool Disconnect(int token) {
 
             lock (this.state) {
+                RWLock.EnterWriteLock();
                 if (!this.state.Players.ContainsKey(token)) {
                     return false;
                 }
@@ -148,11 +147,19 @@ namespace DobbleGameServer {
 
                 Callback.SendLog("Opuszczono pokój gry.");
                 BroadcastMessage(player.Name + " opuścił grę.");
+                BroadcastPlayerList();
                 if (!IsRequiredNumberOfPlayers() && state.State != State.Lobby) {
                     BroadcastMessage("Brak wystarczającej liczby graczy do kontynuowania gry.");
                     StopGame();
                 }
-
+                if(state.State == State.Lobby) {
+                    this.state.Leaderboard.TryRemove(token, out _);
+                }
+                if(state.Players.Keys.Count == 1 && token == state.AdminToken) {
+                    state.AdminToken = this.state.Players.Values.First().Id;
+                    state.Players[state.AdminToken].Callback.SendPlayerData(new PlayerDto(state.AdminToken, player, true));
+                }
+                RWLock.ExitWriteLock();
                 return returnValue;
             }
 

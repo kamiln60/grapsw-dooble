@@ -61,9 +61,9 @@ namespace DobbleGameServer {
         }
 
         private void SendLeaderboard() {
-            List<LeaderboardRow> leaderBoard = state.Players.Values
-                .Select(player => new LeaderboardRow(player.Name, player.Points))
-                .OrderByDescending(player => player.Points)
+            List<LeaderboardRow> leaderBoard = state.Leaderboard
+                .Values
+                .OrderByDescending(lb => lb.Points)
                 .ToList();
             state.Players.Values
                 .ToList()

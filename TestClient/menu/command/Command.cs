@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DobbleGameServer.dto;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -62,6 +63,20 @@ namespace TestClient.menu.command {
         {
             Console.WriteLine("Opuszczono lobby.");
             remote.Disconnect(remote.Token);
+        }
+    }
+
+    public class ChangeSettingsCommand : Command<Server> {
+        public ChangeSettingsCommand(Server remote, string name) : base(remote, name) {
+        }
+        public override void execute() {
+            var settings = new ServerSettingsDto();
+            Console.WriteLine("Wpisz max liczbe rund: ");
+            settings.MaxRoundNumber = int.Parse(Console.ReadLine());
+            Console.WriteLine("Wpisz liczbe symboli(prawidlowe: 4, 6, 8");
+
+            settings.SymbolsPerCard = int.Parse(Console.ReadLine());
+            remote.ApplySettings(remote.Token, settings);
         }
     }
 }

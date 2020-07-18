@@ -56,6 +56,7 @@
     <Compile Include="dto\ServerConfigDto.cs" />
     <Compile Include="dto\ServerSettingsDto.cs" />
     <Compile Include="GameCycle.cs" />
+    <Compile Include="NotifyMethods.cs" />
     <Compile Include="SymbolsLoader.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="utils\BlockingQueue.cs" />

@@ -62,5 +62,11 @@ namespace DobbleGameServer
         void EndGame();
         [OperationContract]
         int Ping();
+        [OperationContract(IsOneWay = true)]
+        void SendPlayerList(List<PlayerDto> players);
+        [OperationContract(IsOneWay = true)]
+        void NotifyRoundStart(int round);
+        [OperationContract(IsOneWay = true)]
+        void NotifyRoundEnd(int round);
     }
 }

@@ -20,12 +20,24 @@ namespace DobbleGameServer.dto {
         [DataMember]
         public bool IsAdmin { get; set; }
 
+        [DataMember]
+        public bool IsReady { get; set; }
+
         public PlayerDto(int token, Player player, bool isAdmin)
         {
             this.Id = token;
             this.Name = player.Name;
             this.Points = player.Points;
             this.CardId = player.CardId;
+            this.IsReady = player.IsReady;
+            this.IsAdmin = isAdmin;
+        }
+
+        public PlayerDto(Player player, bool isAdmin) {
+            this.Id = 0;
+            this.Name = player.Name;
+            this.Points = player.Points;
+            this.IsReady = player.IsReady;
             this.IsAdmin = isAdmin;
         }
 

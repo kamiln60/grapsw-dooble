@@ -9,11 +9,11 @@ namespace DobbleGameServer.dto {
     [DataContract]
     public class ServerConfigDto {
         [DataMember]
-        public int RoundTimeMS { get; } = 60000;
+        public int RoundTimeMS { get; set; } = 60000;
         [DataMember]
-        public int RoundIntervalMS { get; } = 5000;
+        public int RoundIntervalMS { get; set; } = 5000;
         [DataMember] 
-        public bool ReadinessEveryRound { get; } = true;
+        public bool ReadinessEveryRound { get; set; } = true;
         [DataMember] 
         public int MaxRoundNumber { get; set; } = 10;
         [DataMember]

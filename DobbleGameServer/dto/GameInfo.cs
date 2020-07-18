@@ -13,14 +13,11 @@ namespace DobbleGameServer.dto {
         public string AdminName { get; set; }
         [DataMember]
         public ServerConfigDto Config { get; set; }
-        [DataMember]
-        public State State { get; set; }
 
-        public GameInfo(string adminName, ServerConfigDto config, State state)
+        public GameInfo(string adminName, ServerConfigDto config)
         {
             AdminName = adminName;
             Config = config;
-            State = state;
         }
     }
 }
