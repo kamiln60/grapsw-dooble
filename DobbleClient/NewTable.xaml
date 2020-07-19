@@ -20,7 +20,7 @@
             </Frame>
             <Frame Content="spawn player symbols" Height="187" Canvas.Left="10" Canvas.Top="32" Width="472"  Foreground="White" Background="White"/>
             <Button Content="Ready" Canvas.Left="502" Canvas.Top="239" Width="119" Height="64" Click="Button_Click_1" RenderTransformOrigin="-0.109,0.422"/>
-            <Button Content="Exit" Canvas.Left="671" Canvas.Top="239" Width="119" Height="64" Click="Exit"/>
+            <Button Content="Exit" Canvas.Left="642" Canvas.Top="239" Width="119" Height="64" Click="Exit"/>
             <Label x:Name="ReadinessLabel" Content="Nie gotowy" Canvas.Left="575" Canvas.Top="208" Width="119"/>
             <ListView x:Name="PlayerList" Height="171" Canvas.Left="502" Canvas.Top="32" Width="288">
                 <ListView.View>
@@ -35,33 +35,33 @@
 
 
 
-            <Button x:Name="butt1"  Canvas.Top="57" Width="50" Height="50" Canvas.Left="45" Click="bt1">
+            <Button Content="1" x:Name="butt1"  Canvas.Top="57" Width="50" Height="50" Canvas.Left="45" Click="bt1">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="butt2"  Canvas.Top="138" Width="50" Height="50" Canvas.Left="305" Click="bt6">
+            <Button Content="2" x:Name="butt2"  Canvas.Top="138" Width="50" Height="50" Canvas.Left="305" Click="bt6">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="butt3"  Canvas.Top="138" Width="50" Height="50" Canvas.Left="181" Click="bt5">
+            <Button Content="3" x:Name="butt3"  Canvas.Top="138" Width="50" Height="50" Canvas.Left="181" Click="bt5">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="butt4" Canvas.Top="138" Width="50" Height="50" Canvas.Left="45" Click="bt4">
+            <Button Content="4" x:Name="butt4" Canvas.Top="138" Width="50" Height="50" Canvas.Left="45" Click="bt4">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button x:Name="butt5"  Canvas.Top="57" Width="50" Height="50" Canvas.Left="305" Click="bt3">
+            <Button Content="5"  x:Name="butt5"  Canvas.Top="57" Width="50" Height="50" Canvas.Left="305" Click="bt3">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
 
-            <Button x:Name="butt6" Canvas.Top="57" Width="50" Height="50" Canvas.Left="181" Click="bt2">
+            <Button Content="6" x:Name="butt6" Canvas.Top="57" Width="50" Height="50" Canvas.Left="181" Click="bt2">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>

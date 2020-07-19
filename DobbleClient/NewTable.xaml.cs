@@ -125,12 +125,14 @@ namespace DobbleClient {
                 ImageBrush brush = new ImageBrush();
                 
                 sbut1.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[0]]);
-                
                 sbut2.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[1]]);
                 sbut3.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[2]]);
                 sbut4.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[3]]);
                 sbut5.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[4]]);
                 sbut6.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[5]]);
+               
+
+
             });
         }
 
