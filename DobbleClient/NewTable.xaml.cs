@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DobbleClient.DobbleServiceReference1;
 
 namespace DobbleClient
 {
@@ -20,10 +21,12 @@ namespace DobbleClient
     /// </summary>
     public partial class NewTable : Page
     {
-        public NewTable()
+        private Server _server;
+
+        public NewTable(MainWindow mainWindow)
         {
             InitializeComponent();
-
+            this._server = Server.GetInstance();
         }
 
         private void Frame_Navigated(object sender, NavigationEventArgs e)
@@ -38,13 +41,57 @@ namespace DobbleClient
 
         private void Exit(object sender, RoutedEventArgs e)
         {
-            Page1 p1 = new Page1();
-            this.NavigationService.Navigate(p1);
-        }
+            // Page1 p1 = new Page1();
+            // this.NavigationService.Navigate(p1);
+            DobbleServerCallback.GetInstance().VisitNewTable(this);
+            if (_server == null)
+            {
+                MessageBox.Show("BŁĄD! SERWER NULL :o");
+            }
 
+            _server.BeginDisconnect(_server.Token, ExitCallback, null);
+
+        }
+        public void ExitCallback(IAsyncResult ar)
+        {
+            MessageBox.Show("Opuszczono serwer");
+        }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
+            DobbleServerCallback.GetInstance().VisitNewTable(this);
+            _server.Ready = !_server.Ready;
+            _server.BeginDeclareReadiness(_server.Token, _server.Ready, ReadinessCallback, null);
+        }
 
+        public void UpdatePlayerList(List<PlayerDto> players)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                this.PlayerList.Items.Clear();
+                players.ForEach(player =>
+                {
+                    this.PlayerList.Items.Add(string.Format("{0}, {1} punktów, [{2}]", player.Name, player.Points, player.IsReady ? "GOTOWY" : "NIEGOTOWY"));
+                });
+
+            });
+        }
+
+        public void UpdateLogLabel(string text)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                this.LogLabel.Content = text;
+            });
+        }
+
+        public void ReadinessCallback(IAsyncResult ar)
+        {
+            //((DobbleServerClient)ar.AsyncState).EndDeclareReadiness(ar);
+
+            this.Dispatcher.Invoke(() =>
+            {
+                this.ReadinessLabel.Content = _server.Ready ? "Gotowy" : "Nie gotowy";
+            });
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -52,37 +99,31 @@ namespace DobbleClient
 
         }
 
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
         }
-
-
-
-        //buttony gracza
 
         private void bt1(object sender, RoutedEventArgs e)
         {
-            if (true) { } 
-            else { }
-        }
-
-        private void bt2(object sender, RoutedEventArgs e)
-        {
 
         }
+
         private void bt3(object sender, RoutedEventArgs e)
         {
 
         }
+
         private void bt4(object sender, RoutedEventArgs e)
         {
 
         }
+
         private void bt5(object sender, RoutedEventArgs e)
         {
 
         }
+
         private void bt6(object sender, RoutedEventArgs e)
         {
 
