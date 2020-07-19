@@ -40,7 +40,11 @@ namespace DobbleGameServer {
         //         this.Symbols.TryAdd(i, new Symbol(i, imageBytes));
         //     }
         // }
-        // Stara wersja - do przywrócenia jak ogarnięte zostanie przesyłanie obrazków przez sieć
+        // Stara wersja - do przywrócenia jak ogarnięte zostanie przesyłanie obrazków przez sieć'
+
+
+
+
         // private void GenerateCardsFromSchema()
         // {
         //     int cardNo = 1;
