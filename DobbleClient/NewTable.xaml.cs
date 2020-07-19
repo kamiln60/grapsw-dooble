@@ -125,6 +125,7 @@ namespace DobbleClient {
         public void ReceiveRoundData(CardRoundDto dto) {
             this.Dispatcher.Invoke(() =>
             {
+                ButtonToSymboNo.Clear();
                 sbut1.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[0]]);
                 sbut2.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[1]]);
                 sbut3.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[2]]);
