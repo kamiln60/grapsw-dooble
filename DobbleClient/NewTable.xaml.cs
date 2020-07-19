@@ -24,12 +24,15 @@ namespace DobbleClient {
 
         private Dictionary<int, BitmapImage> Symbols;
 
+        private Dictionary<string, int> ButtonToSymboNo;
+
         private readonly string CARDS_PATH = "C:\\cards";
 
         public NewTable(MainWindow mainWindow) {
             InitializeComponent();
             this._server = Server.GetInstance();
             this.Symbols = new Dictionary<int, BitmapImage>();
+            this.ButtonToSymboNo = new Dictionary<string, int>();
             if (!Directory.Exists(CARDS_PATH))
             {
                 
@@ -122,15 +125,25 @@ namespace DobbleClient {
         public void ReceiveRoundData(CardRoundDto dto) {
             this.Dispatcher.Invoke(() =>
             {
-                ImageBrush brush = new ImageBrush();
-                
                 sbut1.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[0]]);
-                
                 sbut2.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[1]]);
                 sbut3.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[2]]);
                 sbut4.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[3]]);
                 sbut5.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[4]]);
                 sbut6.Background = new ImageBrush(Symbols[dto.CurrentCard.Symbols[5]]);
+
+                butt1.Background = new ImageBrush(Symbols[dto.PlayerCard.Symbols[0]]);
+                ButtonToSymboNo.Add("butt1", dto.PlayerCard.Symbols[0]);
+                butt2.Background = new ImageBrush(Symbols[dto.PlayerCard.Symbols[1]]);
+                ButtonToSymboNo.Add("butt2", dto.PlayerCard.Symbols[1]);
+                butt3.Background = new ImageBrush(Symbols[dto.PlayerCard.Symbols[2]]);
+                ButtonToSymboNo.Add("butt3", dto.PlayerCard.Symbols[2]);
+                butt4.Background = new ImageBrush(Symbols[dto.PlayerCard.Symbols[3]]);
+                ButtonToSymboNo.Add("butt4", dto.PlayerCard.Symbols[3]);
+                butt5.Background = new ImageBrush(Symbols[dto.PlayerCard.Symbols[4]]);
+                ButtonToSymboNo.Add("butt5", dto.PlayerCard.Symbols[4]);
+                butt6.Background = new ImageBrush(Symbols[dto.PlayerCard.Symbols[5]]);
+                ButtonToSymboNo.Add("butt6", dto.PlayerCard.Symbols[5]);
             });
         }
 
@@ -150,28 +163,31 @@ namespace DobbleClient {
 
         }
 
-        private void bt1(object sender, RoutedEventArgs e) {
-
+        private void bt1(object sender, RoutedEventArgs e)
+        {
+            _server.BeginPickACard(_server.Token, ButtonToSymboNo["butt1"], EmptyCallback, null);
         }
 
 
         private void bt3(object sender, RoutedEventArgs e) {
-
+            _server.BeginPickACard(_server.Token, ButtonToSymboNo["butt3"], EmptyCallback, null);
         }
 
         private void bt4(object sender, RoutedEventArgs e) {
-
+            _server.BeginPickACard(_server.Token, ButtonToSymboNo["butt4"], EmptyCallback, null);
         }
 
         private void bt5(object sender, RoutedEventArgs e) {
-
+            _server.BeginPickACard(_server.Token, ButtonToSymboNo["butt5"], EmptyCallback, null);
         }
 
         private void bt6(object sender, RoutedEventArgs e) {
-
+            _server.BeginPickACard(_server.Token, ButtonToSymboNo["butt6"], EmptyCallback, null);
         }
-
         private void bt2(object sender, RoutedEventArgs e) {
+            _server.BeginPickACard(_server.Token, ButtonToSymboNo["butt2"], EmptyCallback, null);
+        }
+        public void EmptyCallback(IAsyncResult ar) {
 
         }
     }

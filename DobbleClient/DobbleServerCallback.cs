@@ -62,14 +62,14 @@ namespace DobbleClient
 
         public void LockClient()
         {
-
+            MessageBox.Show("Dostałeś bana, noobie");
         }
 
 
 
         public void UnlockClient()
         {
-
+            MessageBox.Show("Możesz grać dalej... chyba. REEEE");
         }
 
 
