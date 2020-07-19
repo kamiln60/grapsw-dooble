@@ -29,7 +29,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Label x:Name="LogLabel" Content="Label" Canvas.Left="10" Canvas.Top="451" Width="472"/>
+            <Label x:Name="LogLabel" Content="" Canvas.Left="10" Canvas.Top="451" Width="472"/>
 
 
 
