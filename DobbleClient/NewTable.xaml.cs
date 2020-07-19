@@ -56,5 +56,36 @@ namespace DobbleClient
         {
 
         }
+
+
+
+        //buttony gracza
+
+        private void bt1(object sender, RoutedEventArgs e)
+        {
+            if (true) { } 
+            else { }
+        }
+
+        private void bt2(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void bt3(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void bt4(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void bt5(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void bt6(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
