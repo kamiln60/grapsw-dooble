@@ -98,7 +98,7 @@ namespace DobbleClient
 
         public void SendRoundData(CardRoundDto roundDto)
         {
-
+            this.newTable.ReceiveRoundData(roundDto);
         }
 
 

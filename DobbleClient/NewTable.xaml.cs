@@ -41,8 +41,7 @@ namespace DobbleClient
 
         private void Exit(object sender, RoutedEventArgs e)
         {
-            // Page1 p1 = new Page1();
-            // this.NavigationService.Navigate(p1);
+
             DobbleServerCallback.GetInstance().VisitNewTable(this);
             if (_server == null)
             {
@@ -50,7 +49,8 @@ namespace DobbleClient
             }
 
             _server.BeginDisconnect(_server.Token, ExitCallback, null);
-
+             Page1 p1 = new Page1();
+             this.NavigationService.Navigate(p1);
         }
         public void ExitCallback(IAsyncResult ar)
         {
@@ -84,6 +84,19 @@ namespace DobbleClient
             });
         }
 
+        public void ReceiveRoundData(CardRoundDto dto)
+        {
+            this.Dispatcher.Invoke(() =>
+            { 
+               /* //tutaj przydzielasz obrazki pod numerki otrzymane z serwera.
+                dto.RoundNumber // numer rundy
+                dto.CurrentCard //karta na stole
+                dto.PlayerCard //karta dla danego gracza
+                //butt1
+            */
+            });
+        }
+
         public void ReadinessCallback(IAsyncResult ar)
         {
             //((DobbleServerClient)ar.AsyncState).EndDeclareReadiness(ar);
@@ -109,6 +122,7 @@ namespace DobbleClient
 
         }
 
+
         private void bt3(object sender, RoutedEventArgs e)
         {
 
@@ -125,6 +139,11 @@ namespace DobbleClient
         }
 
         private void bt6(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void bt2(object sender, RoutedEventArgs e)
         {
 
         }

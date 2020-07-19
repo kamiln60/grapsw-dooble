@@ -41,6 +41,8 @@ namespace DobbleClient
         public MainWindow()
         {
             InitializeComponent();
+            Page1 p1 = new Page1();
+            myframe.NavigationService.Navigate(p1);
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             this._server = Server.GetInstance();
             this.newTable = new NewTable(this);

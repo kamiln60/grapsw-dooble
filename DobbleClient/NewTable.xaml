@@ -35,77 +35,77 @@
 
 
 
-            <Button Content="Button" Canvas.Top="57" Width="50" Height="50" Canvas.Left="45" Click="bt1">
+            <Button x:Name="butt1"  Canvas.Top="57" Width="50" Height="50" Canvas.Left="45" Click="bt1">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Button" Canvas.Top="138" Width="50" Height="50" Canvas.Left="305" Click="bt6">
+            <Button x:Name="butt2"  Canvas.Top="138" Width="50" Height="50" Canvas.Left="305" Click="bt6">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Button" Canvas.Top="138" Width="50" Height="50" Canvas.Left="181" Click="bt5">
+            <Button x:Name="butt3"  Canvas.Top="138" Width="50" Height="50" Canvas.Left="181" Click="bt5">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Button" Canvas.Top="138" Width="50" Height="50" Canvas.Left="45" Click="bt4">
+            <Button x:Name="butt4" Canvas.Top="138" Width="50" Height="50" Canvas.Left="45" Click="bt4">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Button" Canvas.Top="57" Width="50" Height="50" Canvas.Left="305" Click="bt3">
-                <Button.Background>
-                    <ImageBrush ImageSource="qmark.png"/>
-                </Button.Background>
-            </Button>
-            <Button x:Name="bt2" Content="Button" Canvas.Top="57" Width="50" Height="50" Canvas.Left="181">
+            <Button x:Name="butt5"  Canvas.Top="57" Width="50" Height="50" Canvas.Left="305" Click="bt3">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <Button Content="Button" Canvas.Top="273" Width="50" Height="50" Canvas.Left="45" Click="Button_Click_2">
+            <Button x:Name="butt6" Canvas.Top="57" Width="50" Height="50" Canvas.Left="181" Click="bt2">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Button" Canvas.Top="354" Width="50" Height="50" Canvas.Left="305">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <Button x:Name="sbut1"  Canvas.Top="273" Width="50" Height="50" Canvas.Left="45" Cursor="None">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Button" Canvas.Top="354" Width="50" Height="50" Canvas.Left="181">
+            <Button x:Name="sbut2"  Canvas.Top="354" Width="50" Height="50" Canvas.Left="305">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Button" Canvas.Top="354" Width="50" Height="50" Canvas.Left="45">
+            <Button x:Name="sbut3"  Canvas.Top="354" Width="50" Height="50" Canvas.Left="181">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Button" Canvas.Top="273" Width="50" Height="50" Canvas.Left="305">
+            <Button x:Name="sbut4"  Canvas.Top="354" Width="50" Height="50" Canvas.Left="45">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>
             </Button>
-            <Button Content="Button" Canvas.Top="273" Width="50" Height="50" Canvas.Left="181">
+            <Button x:Name="sbut5"  Canvas.Top="273" Width="50" Height="50" Canvas.Left="305">
+                <Button.Background>
+                    <ImageBrush ImageSource="qmark.png"/>
+                </Button.Background>
+            </Button>
+            <Button x:Name="sbut6"  Canvas.Top="273" Width="50" Height="50" Canvas.Left="181">
                 <Button.Background>
                     <ImageBrush ImageSource="qmark.png"/>
                 </Button.Background>

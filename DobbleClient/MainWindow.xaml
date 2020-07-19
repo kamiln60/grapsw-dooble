@@ -11,12 +11,14 @@
         <TextBox x:Name="NicknameInput" Height="23" Margin="0,6,672,0" TextWrapping="Wrap" Text="Nickname" VerticalAlignment="Top" TextChanged="TextBox_TextChanged"/>
         <Frame Content="" HorizontalAlignment="Left" Height="547" Margin="0,29,-0.4,-5.6" VerticalAlignment="Top" Width="794" RenderTransformOrigin="-0.316,-0.112" x:Name="myframe" Navigated="Main_Navigated" NavigationUIVisibility="Hidden">
             <Frame.Background>
+
                 <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5">
                     <GradientStop Color="#FF3D7C88" Offset="0"/>
                     <GradientStop Color="White" Offset="1"/>
                 </RadialGradientBrush>
             </Frame.Background>
         </Frame>
+
 
 
     </Grid>
