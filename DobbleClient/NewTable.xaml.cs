@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -90,7 +91,7 @@ namespace DobbleClient {
 
             DobbleServerCallback.GetInstance().VisitNewTable(this);
             if (_server == null) {
-                MessageBox.Show("BŁĄD! SERWER NULL :o");
+                 new Thread(() => MessageBox.Show("BŁĄD! SERWER NULL :o")).Start();
             }
 
             _server.BeginDisconnect(_server.Token, ExitCallback, null);
@@ -98,7 +99,7 @@ namespace DobbleClient {
             this.NavigationService.Navigate(p1);
         }
         public void ExitCallback(IAsyncResult ar) {
-            MessageBox.Show("Opuszczono serwer");
+            new Thread(() => MessageBox.Show("Opuszczono serwer")).Start();
         }
         private void Button_Click_1(object sender, RoutedEventArgs e) {
             DobbleServerCallback.GetInstance().VisitNewTable(this);

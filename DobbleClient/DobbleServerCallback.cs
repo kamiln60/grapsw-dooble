@@ -62,14 +62,14 @@ namespace DobbleClient
 
         public void LockClient()
         {
-            MessageBox.Show("Zły symbol! Blokada na 3 sekundy.");
+            new Thread(() => MessageBox.Show("Zły symbol! Blokada na 3 sekundy.")).Start();
         }
 
 
 
         public void UnlockClient()
         {
-            MessageBox.Show("Możesz grać dalej.");
+            new Thread(() => MessageBox.Show("Możesz grać dalej.")).Start();
         }
 
 
@@ -111,7 +111,7 @@ namespace DobbleClient
 
         public void EndGame()
         {
-            MessageBox.Show("Koniec gry.");
+            new Thread(() => MessageBox.Show("Koniec gry!")).Start();
         }
 
         public int Ping()
@@ -132,11 +132,11 @@ namespace DobbleClient
 
         public void NotifyRoundStart(int round)
         {
-            MessageBox.Show("Runda rozpocznie się za 5 sekund...");
+            new Thread(() => MessageBox.Show("Runda rozpocznie się za 5 sekund...")).Start();
         }
         public void NotifyRoundEnd(int round)
         {
-            MessageBox.Show("Koniec rundy!");
+            new Thread(() => MessageBox.Show("Koniec rundy!")).Start();
             Server.GetInstance().Ready = false;
         }
 
