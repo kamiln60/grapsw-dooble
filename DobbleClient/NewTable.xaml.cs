@@ -58,25 +58,40 @@ namespace DobbleClient
         }
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            try
-            {
+                DobbleServerCallback.GetInstance().VisitNewTable(this);
                 _server.Ready = !_server.Ready;
-                MessageBox.Show("Tu jest okej1");
                 _server.BeginDeclareReadiness(_server.Token, _server.Ready, ReadinessCallback, null);
-                MessageBox.Show("Tu jest okej2");
-            }
-            catch (Exception er)
-            {
-                MessageBox.Show(er.Message);
-            }
+        }
 
+        public void UpdatePlayerList(List<PlayerDto> players)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                this.PlayerList.Items.Clear();
+                players.ForEach(player =>
+                {
+                    this.PlayerList.Items.Add(string.Format("{0}, {1} punktów, [{2}]", player.Name, player.Points, player.IsReady ? "GOTOWY" : "NIEGOTOWY"));
+                });
+
+            });
+        }
+
+        public void UpdateLogLabel(string text)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                this.LogLabel.Content = text;
+            });
         }
 
         public void ReadinessCallback(IAsyncResult ar)
         {
             //((DobbleServerClient)ar.AsyncState).EndDeclareReadiness(ar);
-            
-            this.ReadinessLabel.Content = _server.Ready? "Gotowy":"Nie gotowy";
+
+            this.Dispatcher.Invoke(() =>
+            {
+                this.ReadinessLabel.Content = _server.Ready ? "Gotowy" : "Nie gotowy";
+            });
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

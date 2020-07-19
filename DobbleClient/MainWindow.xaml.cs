@@ -36,12 +36,16 @@ namespace DobbleClient
     public partial class MainWindow : Window
     {
         private Server _server;
+
+        private NewTable newTable;
         public MainWindow()
         {
             InitializeComponent();
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             this._server = Server.GetInstance();
+            this.newTable = new NewTable(this);
             DobbleServerCallback.GetInstance().VisitMainWindow(this);
+            DobbleServerCallback.GetInstance().VisitNewTable(newTable);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -57,13 +61,13 @@ namespace DobbleClient
 
         public void ConnectCallback(IAsyncResult ar)
         {
-            bool x = ((DobbleServerClient) ar.AsyncState).EndConnect(ar);
+           
         }
 
         public void AcceptPlayerData(PlayerDto player)
         {
             _server.Token = player.Id;
-            myframe.Content = new NewTable(this);
+            myframe.Content = newTable;
         }
 
         private void Main_Navigated(object sender, NavigationEventArgs e)
@@ -74,6 +78,11 @@ namespace DobbleClient
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        public void ReturnToMain()
+        {
+            this.myframe.Content = null;
         }
     }
 }
