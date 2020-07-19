@@ -62,6 +62,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="DobbleServerCallback.cs" />
     <Compile Include="NewTable.xaml.cs">
       <DependentUpon>NewTable.xaml</DependentUpon>
     </Compile>
@@ -171,6 +172,52 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\1.png" />
+    <Resource Include="res\10.png" />
+    <Resource Include="res\11.png" />
+    <Resource Include="res\12.png" />
+    <Resource Include="res\13.png" />
+    <Resource Include="res\14.png" />
+    <Resource Include="res\15.png" />
+    <Resource Include="res\16.png" />
+    <Resource Include="res\17.png" />
+    <Resource Include="res\18.png" />
+    <Resource Include="res\19.png" />
+    <Resource Include="res\2.png" />
+    <Resource Include="res\20.png" />
+    <Resource Include="res\21.png" />
+    <Resource Include="res\22.png" />
+    <Resource Include="res\23.png" />
+    <Resource Include="res\24.png" />
+    <Resource Include="res\25.png" />
+    <Resource Include="res\26.png" />
+    <Resource Include="res\27.png" />
+    <Resource Include="res\28.png" />
+    <Resource Include="res\29.png" />
+    <Resource Include="res\3.png" />
+    <Resource Include="res\30.png" />
+    <Resource Include="res\31.png" />
+    <Resource Include="res\32.png" />
+    <Resource Include="res\33.png" />
+    <Resource Include="res\34.png" />
+    <Resource Include="res\35.png" />
+    <Resource Include="res\36.png" />
+    <Resource Include="res\37.png" />
+    <Resource Include="res\38.png" />
+    <Resource Include="res\39.png" />
+    <Resource Include="res\4.png" />
+    <Resource Include="res\40.png" />
+    <Resource Include="res\5.png" />
+    <Resource Include="res\6.png" />
+    <Resource Include="res\7.png" />
+    <Resource Include="res\8.png" />
+    <Resource Include="res\9.png" />
+    <Resource Include="res\qmark.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="qmark.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

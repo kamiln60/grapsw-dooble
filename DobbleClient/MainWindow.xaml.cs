@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Configuration;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
@@ -53,7 +54,16 @@ namespace DobbleClient
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            myframe.Content = new Page1();
+            if ( 1 == 1
+            
+                ) {
+                
+
+                myframe.Content = new Page1(); 
+            }
+            else { 
+                  }
+            
         }
 
         private void Main_Navigated(object sender, NavigationEventArgs e)
