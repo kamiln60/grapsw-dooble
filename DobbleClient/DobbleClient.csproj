@@ -62,9 +62,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="DobbleServerCallback.cs" />
     <Compile Include="NewTable.xaml.cs">
       <DependentUpon>NewTable.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Server.cs" />
     <Compile Include="singleplayertable.xaml.cs">
       <DependentUpon>singleplayertable.xaml</DependentUpon>
     </Compile>
