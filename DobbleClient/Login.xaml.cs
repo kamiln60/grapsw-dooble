@@ -28,16 +28,16 @@ namespace DobbleClient
 
         private void NewTable(object sender, RoutedEventArgs e)
         {
-            NewTable nt = new NewTable();
-            this.NavigationService.Navigate(nt);
+            // NewTable nt = new NewTable();
+            // this.NavigationService.Navigate(nt);
         }
 
 
 
         private void singleplayertable(object sender, RoutedEventArgs e)
         {
-            singleplayertable sp = new singleplayertable();
-            this.NavigationService.Navigate(sp);
+            // singleplayertable sp = new singleplayertable();
+            // this.NavigationService.Navigate(sp);
         }
 
         private void Help(object sender, RoutedEventArgs e)

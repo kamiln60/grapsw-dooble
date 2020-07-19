@@ -89,6 +89,15 @@
   <wsdl:message name="IDobbleServer_Ping_InputCallbackMessage">
     <wsdl:part name="parameters" element="tns:PingResponse" />
   </wsdl:message>
+  <wsdl:message name="IDobbleServer_SendPlayerList_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:SendPlayerList" />
+  </wsdl:message>
+  <wsdl:message name="IDobbleServer_NotifyRoundStart_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:NotifyRoundStart" />
+  </wsdl:message>
+  <wsdl:message name="IDobbleServer_NotifyRoundEnd_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:NotifyRoundEnd" />
+  </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="IDobbleServer">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Connect">
       <wsdl:input wsaw:Action="http://tempuri.org/IDobbleServer/Connect" message="tns:IDobbleServer_Connect_InputMessage" />
@@ -141,6 +150,15 @@
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Ping">
       <wsdl:output wsaw:Action="http://tempuri.org/IDobbleServer/Ping" message="tns:IDobbleServer_Ping_OutputCallbackMessage" />
       <wsdl:input wsaw:Action="http://tempuri.org/IDobbleServer/PingResponse" message="tns:IDobbleServer_Ping_InputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SendPlayerList">
+      <wsdl:output wsaw:Action="http://tempuri.org/IDobbleServer/SendPlayerList" message="tns:IDobbleServer_SendPlayerList_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotifyRoundStart">
+      <wsdl:output wsaw:Action="http://tempuri.org/IDobbleServer/NotifyRoundStart" message="tns:IDobbleServer_NotifyRoundStart_OutputCallbackMessage" />
+    </wsdl:operation>
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="NotifyRoundEnd">
+      <wsdl:output wsaw:Action="http://tempuri.org/IDobbleServer/NotifyRoundEnd" message="tns:IDobbleServer_NotifyRoundEnd_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSDualHttpBinding_IDobbleServer" type="tns:IDobbleServer">
@@ -253,6 +271,24 @@
       <wsdl:input>
         <soap12:body use="literal" />
       </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendPlayerList">
+      <soap12:operation soapAction="http://tempuri.org/IDobbleServer/SendPlayerList" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyRoundStart">
+      <soap12:operation soapAction="http://tempuri.org/IDobbleServer/NotifyRoundStart" style="document" />
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NotifyRoundEnd">
+      <soap12:operation soapAction="http://tempuri.org/IDobbleServer/NotifyRoundEnd" style="document" />
       <wsdl:output>
         <soap12:body use="literal" />
       </wsdl:output>
