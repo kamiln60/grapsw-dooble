@@ -116,6 +116,19 @@ namespace DobbleClient {
             });
         }
 
+        public void AcceptLeaderBoard(List<LeaderboardRow> leaderboard)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                this.PlayerList.Items.Clear();
+                this.PlayerList.Items.Add("KONIEC GRY!");
+                leaderboard.ForEach(lb =>
+                {
+                    this.PlayerList.Items.Add(string.Format("{0} - {1} punktów", lb.Name, lb.Points));
+                });
+            });
+        }
+
         public void UpdateLogLabel(string text) {
             this.Dispatcher.Invoke(() => {
                 this.LogLabel.Content = text;
@@ -145,6 +158,7 @@ namespace DobbleClient {
                 ButtonToSymboNo.Add("butt5", dto.PlayerCard.Symbols[4]);
                 butt6.Background = new ImageBrush(Symbols[dto.PlayerCard.Symbols[5]]);
                 ButtonToSymboNo.Add("butt6", dto.PlayerCard.Symbols[5]);
+                LogLabel.Content = string.Format("RUNDA NR {0}", dto.RoundNumber);
             });
         }
 

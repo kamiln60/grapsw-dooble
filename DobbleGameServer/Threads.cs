@@ -56,8 +56,8 @@ namespace DobbleGameServer {
                         NotifyEveryoneAboutRoundEnd(state.RoundNumber);
                         BroadcastMessage(string.Format("Koniec rundy {0}, zwyciężył {1}", state.RoundNumber, state.Players[pick.PlayerToken].Name));
                         //this.InitializeRound();
-                        BroadcastMessage("Oczekiwanie na gotowość graczy...");
                         state.PlayerList.ForEach(player => player.IsReady = false);
+                        BroadcastPlayerList();
                     }
                     else {
                         state.Players[pick.PlayerToken].Callback.LockClient();

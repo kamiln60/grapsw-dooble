@@ -62,14 +62,14 @@ namespace DobbleClient
 
         public void LockClient()
         {
-            MessageBox.Show("Dostałeś bana, noobie");
+            MessageBox.Show("Zły symbol! Blokada na 3 sekundy.");
         }
 
 
 
         public void UnlockClient()
         {
-            MessageBox.Show("Możesz grać dalej... chyba. REEEE");
+            MessageBox.Show("Możesz grać dalej.");
         }
 
 
@@ -83,7 +83,6 @@ namespace DobbleClient
 
         public void SendPlayerData(PlayerDto player)
         {
-            Console.WriteLine("Odebrano dane!");
             mainWindow.AcceptPlayerData(player);
         }
 
@@ -105,14 +104,14 @@ namespace DobbleClient
 
         public void SendLeaderBoard(LeaderboardRow[] leaderboard)
         {
-
+            this.newTable.AcceptLeaderBoard(leaderboard.ToList());
         }
 
 
 
         public void EndGame()
         {
-
+            MessageBox.Show("Koniec gry.");
         }
 
         public int Ping()
@@ -131,6 +130,15 @@ namespace DobbleClient
             this.newTable.UpdatePlayerList(players.ToList());
         }
 
+        public void NotifyRoundStart(int round)
+        {
+            MessageBox.Show("Runda rozpocznie się za 5 sekund...");
+        }
+        public void NotifyRoundEnd(int round)
+        {
+            MessageBox.Show("Koniec rundy!");
+            Server.GetInstance().Ready = false;
+        }
 
         #region AsyncCallbacks
         public IAsyncResult BeginLockClient(AsyncCallback callback, object asyncState)
@@ -215,19 +223,13 @@ namespace DobbleClient
         {
             return null;
         }
-        public void NotifyRoundEnd(int round)
-        {
-
-        }
+        
         public void EndSendPlayerList(IAsyncResult result)
         {
 
         }
 
-        public void NotifyRoundStart(int round)
-        {
-
-        }
+        
         public IAsyncResult BeginNotifyRoundStart(int round, AsyncCallback callback, object asyncState)
         {
             return null;
