@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DobbleClient.DobbleServiceReference1;
 
 namespace DobbleClient
 {
@@ -34,26 +35,41 @@ namespace DobbleClient
 
     public partial class MainWindow : Window
     {
-        private InstanceContext Context { get; set; }
+        private Server _server;
 
-
+        private NewTable newTable;
         public MainWindow()
         {
             InitializeComponent();
+            Page1 p1 = new Page1();
+            myframe.NavigationService.Navigate(p1);
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-
-
+            this._server = Server.GetInstance();
+            this.newTable = new NewTable(this);
+            DobbleServerCallback.GetInstance().VisitMainWindow(this);
+            DobbleServerCallback.GetInstance().VisitNewTable(newTable);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
 
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            myframe.Content = new Page1();
+            _server.BeginConnect(NicknameInput.Text, ConnectCallback, null);
+
+        }
+
+        public void ConnectCallback(IAsyncResult ar)
+        {
+
+        }
+
+        public void AcceptPlayerData(PlayerDto player)
+        {
+            _server.Token = player.Id;
+            myframe.Content = newTable;
         }
 
         private void Main_Navigated(object sender, NavigationEventArgs e)
@@ -64,6 +80,11 @@ namespace DobbleClient
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
+        }
+
+        public void ReturnToMain()
+        {
+            this.myframe.Content = null;
         }
     }
 }

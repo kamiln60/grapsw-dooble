@@ -14,14 +14,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="Card" nillable="true" type="tns:Card" />
-  <xs:simpleType name="State">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Lobby" />
-      <xs:enumeration value="WaitForReadiness" />
-      <xs:enumeration value="PickCard" />
-      <xs:enumeration value="WaitForCard" />
-      <xs:enumeration value="End" />
-    </xs:restriction>
-  </xs:simpleType>
-  <xs:element name="State" nillable="true" type="tns:State" />
 </xs:schema>

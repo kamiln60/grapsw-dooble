@@ -10,30 +10,6 @@
 
     <Grid>
         <Canvas HorizontalAlignment="Left" Height="440" Margin="10,10,0,-0.4" VerticalAlignment="Top" Width="790">
-            <Button Content="Nowy stół" Canvas.Left="102" Canvas.Top="188" Width="173" Height="94" Foreground="#FF0B0000" Click="NewTable">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FFFF9B9B" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Content="Gra solo" Canvas.Left="547" Canvas.Top="188" Width="173" Height="94" Click="singleplayertable">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FF6A78DF" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
-            <Button Content="Zasady gry" Canvas.Left="318" Canvas.Top="188" Width="173" Height="94" Click="hulp">
-                <Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="#FF78FFA5" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>
-            </Button>
             <TextBlock Canvas.Left="249" TextWrapping="Wrap" Text="Doble game " Canvas.Top="45" FontWeight="Bold" Height="89" Width="291" FontSize="48">
                 <TextBlock.Foreground>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">

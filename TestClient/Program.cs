@@ -101,7 +101,7 @@ namespace TestClient {
 
         private static void InitClient() {
             context = new InstanceContext(new CallbackHandler());
-            EndpointAddress endpoint = new EndpointAddress("http://192.168.1.2:8000/DobbleServer/");
+            EndpointAddress endpoint = new EndpointAddress("http://localhost:8000/DobbleServer/");
             WSDualHttpBinding binding = new WSDualHttpBinding(WSDualHttpSecurityMode.None);
             //binding.Security.Mode = WSDualHttpSecurityMode.None;
             server = new Server(context);
